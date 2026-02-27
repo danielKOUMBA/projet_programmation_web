@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import { db } from '../db';
 import { utilisateurs } from '../db/schema';
-import { eq } from 'drizzle-orm';
+import { eq, } from 'drizzle-orm';
 import jwt from 'jsonwebtoken';
 
 // --- Fonction pour générer le cookie (utilitaire interne) ---
@@ -96,3 +96,4 @@ export const verifierAuthentification = async (req: any, res: Response) => {
     res.status(500).json({ succes: false, message: error.message });
   }
 };
+
