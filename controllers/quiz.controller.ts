@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { db } from '../db';
 import { parties, questions, reponses, utilisateurs} from '../db/schema';
-import { eq, and, sql, inArray } from 'drizzle-orm';
+import { eq, and, sql, inArray, desc } from 'drizzle-orm';
 
 export const obtenirQuiz = async (req: Request, res: Response) => {
   // Exemple: /api/quiz?categorie=html&difficulte=1
@@ -125,6 +125,96 @@ export const soumettreQuiz = async (req: any, res: Response) => {
 
     } catch (error: any) {
         console.error("Erreur insertion :", error);
+        res.status(500).json({ succes: false, message: error.message });
+    }
+};
+
+
+
+// --- CLASSEMENT top mondial---
+export const obtenirClassement = async (req: Request, res: Response) => {
+    try {
+        const topJoueurs = await db
+            .select({
+                nom: utilisateurs.nomUtilisateur,
+                points: utilisateurs.pointsTotaux,
+            })
+            .from(utilisateurs)
+            .orderBy(desc(utilisateurs.pointsTotaux))
+            .limit(10); // On ne prend que le Top 10
+
+        res.status(200).json({
+            succes: true,
+            classement: topJoueurs
+        });
+    } catch (error: any) {
+        res.status(500).json({ succes: false, message: error.message });
+    }
+};
+
+// --- HISTORIQUE DE MES PARTIES ---
+
+export const obtenirMesParties = async (req: any, res: Response) => {
+    const userId = req.utilisateur.userId; // Récupéré via le middleware verifierToken
+
+    try {
+        const historique = await db
+            .select()
+            .from(parties)
+            .where(eq(parties.utilisateurId, Number(userId)))
+            .orderBy(desc(parties.joueLe)); // Les plus récentes en premier
+
+        res.status(200).json({
+            succes: true,
+            totalParties: historique.length,
+            historique
+        });
+    } catch (error: any) {
+        res.status(500).json({ succes: false, message: error.message });
+    }
+};
+
+
+export const obtenirStatsUtilisateur = async (req: any, res: Response) => {
+    const userId = req.utilisateur.userId;
+
+    try {
+        // 1. Récupérer les totaux (Score et Questions) pour le taux de réussite
+        const resultats = await db
+            .select({
+                scoreTotal: sql<number>`sum(${parties.scoreObtenu})`,
+                questionsTotales: sql<number>`sum(${parties.totalQuestions})`,
+                pointsTotaux: sql<number>`sum(${parties.pointsGagnes})`
+            })
+            .from(parties)
+            .where(eq(parties.utilisateurId, Number(userId)));
+
+        const stats = resultats[0];
+        
+        // 2. Calcul du pourcentage de réussite
+        const tauxReussite = stats.questionsTotales > 0 
+            ? Math.round((stats.scoreTotal / stats.questionsTotales) * 100) 
+            : 0;
+
+        // 3. Trouver la catégorie la plus jouée
+        const categoriePreferee = await db
+            .select({ nom: parties.categorieJouee, count: sql<number>`count(*)` })
+            .from(parties)
+            .where(eq(parties.utilisateurId, Number(userId)))
+            .groupBy(parties.categorieJouee)
+            .orderBy(sql`count(*) desc`)
+            .limit(1);
+
+        res.status(200).json({
+            succes: true,
+            stats: {
+                pointsAccumules: stats.pointsTotaux || 0,
+                tauxReussite: `${tauxReussite}%`,
+                partiesJouees: stats.questionsTotales ? resultats.length : 0,
+                categorieFavorite: categoriePreferee[0]?.nom || "Aucune"
+            }
+        });
+    } catch (error: any) {
         res.status(500).json({ succes: false, message: error.message });
     }
 };
