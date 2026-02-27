@@ -1,10 +1,9 @@
 import { Request, Response } from 'express';
 import { db } from '../db';
-import { parties, questions, reponses } from '../db/schema';
+import { parties, questions, reponses, utilisateurs} from '../db/schema';
 import { eq, and, sql, inArray } from 'drizzle-orm';
 
 export const obtenirQuiz = async (req: Request, res: Response) => {
-  // On récupère les préférences de l'utilisateur depuis les paramètres d'URL
   // Exemple: /api/quiz?categorie=html&difficulte=1
   const { categorie, difficulte } = req.query;
 
@@ -59,7 +58,6 @@ export const obtenirQuiz = async (req: Request, res: Response) => {
 
 export const soumettreQuiz = async (req: any, res: Response) => {
     const { reponsesUtilisateur, categorie, difficulte } = req.body; 
-    // Rappel : utilisateurId vient du token JWT (verifierToken)
     const userId = req.utilisateur.userId; 
 
     try {
@@ -67,7 +65,7 @@ export const soumettreQuiz = async (req: any, res: Response) => {
             return res.status(400).json({ succes: false, message: "Aucune réponse fournie." });
         }
 
-        // 1. Récupération des bonnes réponses avec jointure pour les points
+        // 1. Récupération des bonnes réponses
         const detailsBonnesReponses = await db
             .select({
                 id: reponses.id,
@@ -82,27 +80,46 @@ export const soumettreQuiz = async (req: any, res: Response) => {
                 )
             );
 
-        // 2. Calcul du score
         const totalPointsGagnes = detailsBonnesReponses.reduce((acc, curr) => acc + (curr.points || 0), 0);
         const nbBonnesReponses = detailsBonnesReponses.length;
 
-        // 3. Insertion en base avec les noms de colonnes de TON schéma
+        // 2. Insertion de la partie
         await db.insert(parties).values({
-            utilisateurId: Number(userId),           // Nom : utilisateurId
-            scoreObtenu: nbBonnesReponses,           // Nom : scoreObtenu (ex: 8 sur 10)
-            totalQuestions: reponsesUtilisateur.length, // Nom : totalQuestions
-            pointsGagnes: totalPointsGagnes,         // Nom : pointsGagnes (ex: 80 points)
-            categorieJouee: categorie || "Général",   // Nom : categorieJouee
-            niveauDifficulte: Number(difficulte) || 1, // Nom : niveauDifficulte
-            // joueLe est géré par defaultNow() dans ton schéma
+            utilisateurId: Number(userId),
+            scoreObtenu: nbBonnesReponses,
+            totalQuestions: reponsesUtilisateur.length,
+            pointsGagnes: totalPointsGagnes,
+            categorieJouee: categorie || "Général",
+            niveauDifficulte: Number(difficulte) || 1
         });
 
+        // 3. Mise à jour des points totaux de l'utilisateur
+      
+              const resultatSomme = await db
+                  .select({ total: sql<number>`sum(${parties.pointsGagnes})` })
+                  .from(parties)
+                  .where(eq(parties.utilisateurId, Number(userId)));
+
+              const nouveauTotalGlobal = Number(resultatSomme[0]?.total) || 0;
+
+              // 4. MISE À JOUR : On écrase les points_totaux avec le nouveau calcul
+              await db.update(utilisateurs)
+                  .set({
+                      pointsTotaux: nouveauTotalGlobal
+                  })
+                  .where(eq(utilisateurs.id, Number(userId)));
+
+              console.log(`Mise à jour réussie : Nouveau total de ${nouveauTotalGlobal} points.`);
+     
+     
+              // 5. IMPORTANT : Envoyer la réponse au client
         res.status(200).json({
             succes: true,
+            message: "Score enregistré avec succès !",
             resultats: {
                 score: nbBonnesReponses,
                 points: totalPointsGagnes,
-                total: reponsesUtilisateur.length
+                totalQuestions: reponsesUtilisateur.length
             }
         });
 
