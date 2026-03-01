@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Quiz Arena · Tableau de bord</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="page">
+    <header class="top-nav">
+      <div class="top-nav-inner">
+        <div class="brand">
+          <div class="brand-logo" aria-hidden="true"></div>
+          <div>
+            <div class="brand-text">Quiz Arena</div>
+            <p class="nav-username" id="nav-username"></p>
+          </div>
+        </div>
+        <nav class="nav-links" aria-label="Navigation principale">
+          <a href="dashboard.html" class="nav-link">Tableau de bord</a>
+          <a href="quiz.html" class="nav-link">Jouer</a>
+          <a href="classement.html" class="nav-link">Classement</a>
+          <button id="logoutBtn" class="nav-link nav-link--primary" type="button">
+            Déconnexion
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <main class="page-main">
+      <section class="section-header">
+        <h1 class="section-title">Bonjour, <span id="hero-name">Joueur·se</span> 👋</h1>
+        <p class="section-subtitle">
+          Suis ta progression, rejoue tes catégories favorites et vise le sommet du classement.
+        </p>
+      </section>
+
+      <section aria-labelledby="stats-title">
+        <div class="grid grid-3">
+          <article class="card">
+            <h2 id="stats-title" class="card-title">Points accumulés</h2>
+            <p id="points-accumules" class="card-value">—</p>
+            <p class="card-caption">Somme de tous tes points gagnés.</p>
+          </article>
+
+          <article class="card">
+            <h2 class="card-title">Taux de réussite</h2>
+            <p id="taux-reussite" class="card-value">—</p>
+            <p class="card-caption">Pourcentage de bonnes réponses sur l’ensemble de tes parties.</p>
+          </article>
+
+          <article class="card">
+            <h2 class="card-title">Catégorie favorite</h2>
+            <p id="categorie-favorite" class="card-value">—</p>
+            <p class="card-caption">L’univers où tu joues le plus souvent.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="table-shell mt-6" aria-labelledby="history-title">
+        <header class="section-header" style="padding: 0.9rem 1.1rem 0">
+          <div class="section-title" id="history-title">Historique de tes parties</div>
+          <p class="section-subtitle">
+            Consulte les dernières sessions jouées pour suivre ta progression.
+          </p>
+        </header>
+        <div id="history-empty" class="empty-state" hidden>
+          Aucune partie jouée pour le moment. Lance un
+          <a href="quiz.html" class="text-accent">nouveau quiz</a> pour commencer.
+        </div>
+        <div class="table-scroll" id="history-table-shell" hidden>
+          <table aria-describedby="history-title">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Catégorie</th>
+                <th>Score</th>
+                <th>Points gagnés</th>
+              </tr>
+            </thead>
+            <tbody id="history-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <p id="dashboard-status" class="status-message mt-3" aria-live="polite"></p>
+    </main>
+
+    <script src="js/config.js"></script>
+    <script src="js/auth-check.js"></script>
+    <script src="js/dashboard.js" defer></script>
+  </body>
+</html>
+

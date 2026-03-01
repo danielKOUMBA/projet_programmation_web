@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Quiz Arena · Classement</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="page">
+    <header class="top-nav">
+      <div class="top-nav-inner">
+        <div class="brand">
+          <div class="brand-logo" aria-hidden="true"></div>
+          <div>
+            <div class="brand-text">Quiz Arena</div>
+            <p class="nav-username" id="nav-username-leaderboard"></p>
+          </div>
+        </div>
+        <nav class="nav-links" aria-label="Navigation principale">
+          <a href="dashboard.html" class="nav-link">Tableau de bord</a>
+          <a href="quiz.html" class="nav-link">Jouer</a>
+          <a href="classement.html" class="nav-link nav-link--primary">Classement</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="page-main">
+      <section class="section-header">
+        <h1 class="section-title">Classement général</h1>
+        <p class="section-subtitle">
+          Découvre le Top 10 mondial des joueurs et vois où tu te situes.
+        </p>
+      </section>
+
+      <section class="table-shell" aria-labelledby="leaderboard-title">
+        <header class="section-header" style="padding: 0.9rem 1.1rem 0">
+          <div id="leaderboard-title" class="section-title">Top 10 des joueurs</div>
+          <p class="section-subtitle">
+            Les points totaux sont recalculés automatiquement après chaque partie jouée.
+          </p>
+        </header>
+
+        <div id="leaderboard-empty" class="empty-state" hidden>
+          Aucun joueur dans le classement pour le moment.
+        </div>
+
+        <div class="table-scroll" id="leaderboard-table-shell" hidden>
+          <table aria-describedby="leaderboard-title">
+            <thead>
+              <tr>
+                <th>Rang</th>
+                <th>Joueur</th>
+                <th>Points</th>
+              </tr>
+            </thead>
+            <tbody id="leaderboard-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <p id="leaderboard-status" class="status-message mt-3" aria-live="polite"></p>
+    </main>
+
+    <script src="js/config.js"></script>
+    <script src="js/leaderboard.js" defer></script>
+  </body>
+</html>
+

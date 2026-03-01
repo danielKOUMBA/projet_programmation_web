@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>QuizMaster · Inscription</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="page">
+    <header class="top-nav">
+      <div class="top-nav-inner">
+        <div class="brand">
+          <div class="brand-logo" aria-hidden="true"></div>
+          <div>
+            <div class="brand-text">QuizMaster</div>
+          </div>
+        </div>
+        <nav class="nav-links" aria-label="Navigation principale">
+          <a href="index.html" class="nav-link">Accueil</a>
+          <a href="quiz.html" class="nav-link">Jouer</a>
+          <a href="classement.html" class="nav-link">Classement</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="auth-shell">
+      <section class="auth-card" aria-labelledby="signup-title">
+        <header class="auth-header">
+          <p class="auth-eyebrow">Inscription</p>
+          <h1 id="signup-title" class="auth-title">Créer un compte</h1>
+          <p class="auth-subtitle">
+            Choisis un nom de joueur, ton email et un mot de passe pour enregistrer tes scores.
+          </p>
+        </header>
+
+        <form id="signup-form" novalidate>
+          <div class="field">
+            <label class="field-label" for="signup-name">Nom de joueur</label>
+            <input
+              id="signup-name"
+              name="nom"
+              type="text"
+              class="field-input"
+              placeholder="QuizMaster42"
+              autocomplete="nickname"
+              required
+            />
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="signup-email">Email</label>
+            <input
+              id="signup-email"
+              name="email"
+              type="email"
+              class="field-input"
+              placeholder="tu@exemple.com"
+              autocomplete="email"
+              required
+            />
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="signup-password">Mot de passe</label>
+            <input
+              id="signup-password"
+              name="password"
+              type="password"
+              class="field-input"
+              placeholder="••••••••"
+              autocomplete="new-password"
+              required
+              minlength="6"
+            />
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-full">Créer mon compte</button>
+
+          <div class="helper-row">
+            <span>Déjà un compte ?</span>
+            <a href="index.html#login" class="text-xs text-accent">Se connecter</a>
+          </div>
+
+          <p id="signup-status" class="status-message" role="status" aria-live="polite"></p>
+        </form>
+      </section>
+    </main>
+
+    <script src="js/config.js"></script>
+    <script src="js/inscription.js" defer></script>
+  </body>
+</html>
+

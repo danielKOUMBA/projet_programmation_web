@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Quiz Arena · Jouer</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="page">
+    <header class="top-nav">
+      <div class="top-nav-inner">
+        <div class="brand">
+          <div class="brand-logo" aria-hidden="true"></div>
+          <div>
+            <div class="brand-text">Quiz Arena</div>
+            <p class="nav-username" id="nav-username-quiz"></p>
+          </div>
+        </div>
+        <nav class="nav-links" aria-label="Navigation principale">
+          <a href="dashboard.html" class="nav-link">Tableau de bord</a>
+          <a href="quiz.html" class="nav-link">Jouer</a>
+          <a href="classement.html" class="nav-link">Classement</a>
+          <button id="logoutBtn" class="nav-link nav-link--primary" type="button">
+            Déconnexion
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <main class="page-main">
+      <section class="section-header">
+        <h1 class="section-title">Nouveau quiz</h1>
+        <p class="section-subtitle">
+          Choisis ta catégorie et ta difficulté, puis tente la meilleure série de bonnes réponses
+          possible.
+        </p>
+      </section>
+
+      <section class="quiz-layout">
+        <!-- Colonne principale : question + réponses -->
+        <article class="quiz-panel" aria-labelledby="quiz-question-title">
+          <header class="quiz-filter-row">
+            <label class="select-label text-xs" for="categorie-select">Catégorie</label>
+            <select id="categorie-select" class="select">
+              <option value="html">HTML</option>
+              <option value="css">CSS</option>
+              <option value="javascript">JavaScript</option>
+              <option value="typescript">TypeScript</option>
+            </select>
+
+            <label class="select-label text-xs" for="difficulte-select">Difficulté</label>
+            <select id="difficulte-select" class="select">
+              <option value="1">Débutant</option>
+              <option value="2">Intermédiaire</option>
+              <option value="3">Avancé</option>
+            </select>
+
+            <button id="startQuizBtn" class="btn btn-primary" type="button">
+              Lancer le quiz
+            </button>
+          </header>
+
+          <div id="quiz-empty" class="empty-state mt-2">
+            Configure ton quiz puis clique sur <span class="text-accent">Lancer le quiz</span>.
+          </div>
+
+          <div id="quiz-active" hidden>
+            <div class="quiz-meta">
+              <div class="pill">
+                Question <span id="question-index">1</span>/<span id="question-total">10</span>
+              </div>
+              <div class="pill">
+                <span id="meta-categorie">—</span> ·
+                <span id="meta-difficulte">—</span>
+              </div>
+              <div class="pill">
+                Potentiel : <span id="meta-points">0</span> pts
+              </div>
+            </div>
+
+            <div class="timer-shell">
+              <div class="timer-label-row">
+                <span>Temps restant</span>
+                <span id="timer-label">15 s</span>
+              </div>
+              <div class="timer-bar-outer">
+                <div id="timer-bar" class="timer-bar-inner"></div>
+              </div>
+            </div>
+
+            <h2 id="quiz-question-title" class="question-enonce">Question en cours…</h2>
+
+            <div id="choices" class="choices-list" role="radiogroup" aria-label="Réponses"></div>
+
+            <div class="quiz-footer-row">
+              <span id="quiz-progress" class="muted text-xs"></span>
+              <button id="nextBtn" class="btn btn-primary" type="button">
+                Question suivante
+              </button>
+            </div>
+          </div>
+
+          <div id="quiz-result" class="empty-state mt-2" hidden></div>
+        </article>
+
+        <!-- Colonne latérale : récap + navigation questions -->
+        <aside class="quiz-sidebar" aria-label="Résumé de la partie">
+          <article class="card">
+            <h2 class="card-title">Vue d’ensemble</h2>
+            <p class="card-value">
+              <span id="sidebar-score">0</span>
+              <span class="text-sm text-accent">bonnes réponses (serveur)</span>
+            </p>
+            <p class="card-caption">
+              Les points sont calculés côté serveur à partir de tes réponses justes.
+            </p>
+            <p class="mt-2 text-xs muted">
+              À la fin de la partie, ton score sera automatiquement enregistré, et tes stats
+              globales mises à jour.
+            </p>
+          </article>
+
+          <article class="card">
+            <h2 class="card-title">Questions</h2>
+            <p class="text-xs muted mb-2">
+              Survole les puces pour voir la progression. Les puces remplies indiquent une réponse
+              sélectionnée.
+            </p>
+            <div id="questions-dots" class="pill-dot-row" aria-hidden="true"></div>
+          </article>
+        </aside>
+      </section>
+
+      <p id="quiz-status" class="status-message mt-3" aria-live="polite"></p>
+    </main>
+
+    <script src="js/config.js"></script>
+    <script src="js/auth-check.js"></script>
+    <script src="js/quiz.js" defer></script>
+  </body>
+</html>
+

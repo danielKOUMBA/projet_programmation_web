@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>QuizMaster · Accueil</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="page">
+    <!-- Navigation principale -->
+    <header class="top-nav">
+      <div class="top-nav-inner">
+        <div class="brand">
+          <div class="brand-logo" aria-hidden="true"></div>
+          <div>
+            <div class="brand-text">QuizMaster</div>
+            <p class="nav-username" id="nav-username-home" data-auth-visible="auth"></p>
+          </div>
+        </div>
+        <nav class="nav-links" aria-label="Navigation principale">
+          <a href="quiz.html" class="nav-link">Jouer</a>
+          <a href="classement.html" class="nav-link">Classement</a>
+          
+          <!-- Liens visibles seulement si NON connecté -->
+          <a href="#login" class="nav-link" data-auth-visible="guest">Connexion</a>
+          <a href="inscription.html" class="nav-link nav-link--primary" data-auth-visible="guest"
+            >Inscription</a
+          >
+          <!-- Actions visibles seulement si connecté -->
+          <a
+            href="dashboard.html"
+            class="nav-link"
+            data-auth-visible="auth"
+            style="display: none"
+            >Tableau de bord</a
+          >
+          <button
+            id="logoutHome"
+            class="nav-link nav-link--primary"
+            type="button"
+            data-auth-visible="auth"
+            style="display: none"
+          >
+            Déconnexion
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <main class="page-main">
+      <!-- Hero d'accueil -->
+      <section class="section-header">
+        <p class="auth-eyebrow">Gratuit &amp; éducatif</p>
+        <h1 class="section-title">Défie ton esprit avec QuizMaster</h1>
+        <p class="section-subtitle">
+          Teste tes connaissances en HTML, CSS, JavaScript et bien plus encore. Joue des parties
+          rapides, suis ta progression et grimpe dans le classement.
+        </p>
+      </section>
+
+      <!-- Bloc visuel type "hero" -->
+      <section class="card mb-4">
+        <p class="card-caption">
+          Crée un compte pour sauvegarder tes scores ou connecte‑toi pour reprendre là où tu t’es
+          arrêté·e.
+        </p>
+      </section>
+
+      <!-- Bloc de connexion intégré à la page d'accueil -->
+      <section id="login" class="auth-card" aria-labelledby="login-title">
+        <header class="auth-header">
+          <p class="auth-eyebrow">Connexion</p>
+          <h2 id="login-title" class="auth-title">Rejoins ta session</h2>
+          <p class="auth-subtitle">
+            Entre ton email et ton mot de passe pour accéder à ton tableau de bord et à tes stats.
+          </p>
+        </header>
+
+        <form id="login-form" novalidate>
+          <div class="field">
+            <label class="field-label" for="email">Email</label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              class="field-input"
+              placeholder="tu@exemple.com"
+              autocomplete="email"
+              required
+            />
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="password">Mot de passe</label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              class="field-input"
+              placeholder="••••••••"
+              autocomplete="current-password"
+              required
+              minlength="6"
+            />
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-full" data-auth-visible="guest">
+            Se connecter
+          </button>
+
+          <div class="helper-row" data-auth-visible="guest">
+            <span>Pas encore de compte ?</span>
+            <a href="inscription.html" class="text-xs text-accent">Créer un compte</a>
+          </div>
+
+          <p id="login-status" class="status-message" role="status" aria-live="polite"></p>
+        </form>
+      </section>
+    </main>
+
+    <script src="js/config.js"></script>
+    <script src="js/home.js"></script>
+    <script src="js/index.js" defer></script>
+  </body>
+</html>
+
