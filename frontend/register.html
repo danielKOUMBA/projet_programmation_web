@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="register.css">
+</head>
+<body>
+    <div class="container">
+        <div class="logo-title">
+            <img src="Capture d'écran 2026-02-28 140538.png"  class="logo">
+            <h3><a href="index.html">QuizArena</a></h3>
+        </div>
+
+        <img src="Capture d'écran 2026-02-27 171226.png" alt="Illustration" class="illustration">
+
+        <h1>Bon Retour</h1>
+        <p>Connectez-vous pour continuer votre aventure quiz</p>
+
+        <form action="/register" method="post">
+            <label for="email">Adresse email</label>
+            <input type="text" id="email" name="email" required>
+
+            <label for="password">Mot de passe:</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit">Se connecter</button>
+            <p>Vous n'avez pas de compte ? <a href="login.html">Inscrivez-vous</a></p>
+        </form>
+    </div>
+</body>
+</html>

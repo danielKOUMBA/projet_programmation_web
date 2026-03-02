@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+    <div class="container">
+        <div class="logo-title">
+            <img src="Capture d'écran 2026-02-28 140538.png"  class="logo">
+            <h3><a href="index.html">QuizArena</a></h3>
+        </div>
+
+        
+
+        <h1>Creer un compte</h1>
+        <p>Rejoignez QuizArena et commencez a jouer</p>
+
+        <form action="/login" method="post">
+            <label for="username">Nomd'utilisateur</label>
+            <input type="text" id="username" name="username" required>
+
+            <label for="email">Adresse email</label>
+            <input type="text" id="email" name="email" required>
+
+            <label for="password">Mot de passe:</label>
+            <input type="password" id="password" name="password" required>
+
+          <label>Pays</label>
+          <select name="country" id="country" required>
+            <option value="" disabled selected hidden>Choisir votre pays</option>
+            <option value="france">France</option>
+            <option value="usa">États-Unis</option>
+            <option value="canada">Canada</option>
+          </select>
+
+            <button type="submit">Creer un compte</button>
+            <p>Vous avez deja un compte ? <a href="register.html">Connectez-vous</a></p>
+        </form>
+    </div>
+</body>
+</html>
