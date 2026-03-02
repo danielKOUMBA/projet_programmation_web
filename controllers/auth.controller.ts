@@ -1,8 +1,6 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import { db } from '../db';
-import { utilisateurs } from '../db/schema';
-import { eq } from 'drizzle-orm';
 import jwt from 'jsonwebtoken';
 
 // --- Fonction pour générer le JWT + cookie (utilitaire interne) ---
@@ -31,19 +29,22 @@ export const inscription = async (req: Request, res: Response) => {
       return res.status(400).json({ succes: false, message: "Tous les champs sont requis." });
     }
 
-    const existeDeja = await db.select().from(utilisateurs).where(eq(utilisateurs.email, email)).limit(1);
-    if (existeDeja.length > 0) {
+    const existeDeja = await db.utilisateur.findUnique({
+      where: { email },
+    });
+    if (existeDeja) {
       return res.status(400).json({ succes: false, message: "Email déjà utilisé." });
     }
 
     const hash = await bcrypt.hash(motDePasse, 10);
-    
-    const result = await db.insert(utilisateurs).values({
-      nomUtilisateur: nom,
-      email: email,
-      motDePasseHash: hash,
-    }).returning();
-    const user = result[0];
+
+    const user = await db.utilisateur.create({
+      data: {
+        nomUtilisateur: nom,
+        email,
+        motDePasseHash: hash,
+      },
+    });
     const token = genererCookie(res, user.id);
 
     res.status(201).json({
@@ -62,8 +63,9 @@ export const connexion = async (req: Request, res: Response) => {
   const { email, motDePasse } = req.body;
 
   try {
-    const result = await db.select().from(utilisateurs).where(eq(utilisateurs.email, email)).limit(1);
-    const user = result[0];
+    const user = await db.utilisateur.findUnique({
+      where: { email },
+    });
 
     if (!user || !(await bcrypt.compare(motDePasse, user.motDePasseHash))) {
       return res.status(400).json({ succes: false, message: "Identifiants incorrects." });
@@ -90,8 +92,9 @@ export const deconnexion = (req: Request, res: Response) => {
 // --- CHECK AUTH ---
 export const verifierAuthentification = async (req: any, res: Response) => {
   try {
-    const result = await db.select().from(utilisateurs).where(eq(utilisateurs.id, req.userId)).limit(1);
-    const user = result[0];
+    const user = await db.utilisateur.findUnique({
+      where: { id: req.userId },
+    });
 
     if (!user) return res.status(404).json({ succes: false, message: "Utilisateur non trouvé." });
 

@@ -1,8 +1,4 @@
 import { db } from './index';
-import { questions, reponses } from './schema';
-import dotenv from 'dotenv';
-
-dotenv.config();
 
 // Quelques questions de base écrites "à la main"
 const baseQuestions = [
@@ -172,29 +168,29 @@ async function seed() {
   try {
     for (const q of questionsData) {
       // 1. Insertion de la question
-      const resQuestion = await db.insert(questions).values({
-        enonce: q.enonce,
-        categorie: q.categorie,
-        difficulte: q.difficulte,
-        pointsValeur: q.pointsValeur,
-      }).returning({ id: questions.id });
+      const question = await db.question.create({
+        data: {
+          enonce: q.enonce,
+          categorie: q.categorie,
+          difficulte: q.difficulte,
+          pointsValeur: q.pointsValeur,
+        },
+      });
 
-      const questionId = resQuestion[0].id;
-
-      // 2. Insertion des réponses liées à cette question
-      await db.insert(reponses).values(
-        q.choix.map(c => ({
+      await db.reponse.createMany({
+        data: q.choix.map(c => ({
           libelle: c.libelle,
           estCorrecte: c.estCorrecte,
-          questionId: questionId
-        }))
-      );
+          questionId: question.id,
+        })),
+      });
     }
 
     console.log(" Base de données remplie avec succès !");
   } catch (error) {
     console.error("Erreur lors du seeding :", error);
   } finally {
+    await db.$disconnect();
     process.exit();
   }
 }
