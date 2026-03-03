@@ -1,4 +1,4 @@
-import { db } from './index';
+import { prisma } from './index';
 
 // Quelques questions de base écrites "à la main"
 const baseQuestions = [
@@ -168,7 +168,7 @@ async function seed() {
   try {
     for (const q of questionsData) {
       // 1. Insertion de la question
-      const question = await db.question.create({
+      const question = await prisma.question.create({
         data: {
           enonce: q.enonce,
           categorie: q.categorie,
@@ -177,7 +177,7 @@ async function seed() {
         },
       });
 
-      await db.reponse.createMany({
+      await prisma.reponse.createMany({
         data: q.choix.map(c => ({
           libelle: c.libelle,
           estCorrecte: c.estCorrecte,
@@ -190,7 +190,7 @@ async function seed() {
   } catch (error) {
     console.error("Erreur lors du seeding :", error);
   } finally {
-    await db.$disconnect();
+    await prisma.$disconnect();
     process.exit();
   }
 }

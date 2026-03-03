@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
-import { db } from '../db';
+import { prisma } from '../db';
 import jwt from 'jsonwebtoken';
 
 // --- Fonction pour générer le JWT + cookie (utilitaire interne) ---
@@ -29,7 +29,7 @@ export const inscription = async (req: Request, res: Response) => {
       return res.status(400).json({ succes: false, message: "Tous les champs sont requis." });
     }
 
-    const existeDeja = await db.utilisateur.findUnique({
+    const existeDeja = await prisma.utilisateur.findUnique({
       where: { email },
     });
     if (existeDeja) {
@@ -38,7 +38,7 @@ export const inscription = async (req: Request, res: Response) => {
 
     const hash = await bcrypt.hash(motDePasse, 10);
 
-    const user = await db.utilisateur.create({
+    const user = await prisma.utilisateur.create({
       data: {
         nomUtilisateur: nom,
         email,
@@ -63,7 +63,7 @@ export const connexion = async (req: Request, res: Response) => {
   const { email, motDePasse } = req.body;
 
   try {
-    const user = await db.utilisateur.findUnique({
+    const user = await prisma.utilisateur.findUnique({
       where: { email },
     });
 
@@ -92,7 +92,7 @@ export const deconnexion = (req: Request, res: Response) => {
 // --- CHECK AUTH ---
 export const verifierAuthentification = async (req: any, res: Response) => {
   try {
-    const user = await db.utilisateur.findUnique({
+    const user = await prisma.utilisateur.findUnique({
       where: { id: req.userId },
     });
 

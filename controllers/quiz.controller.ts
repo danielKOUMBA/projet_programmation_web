@@ -1,12 +1,13 @@
 import { Request, Response } from 'express';
-import { db } from '../db';
+import { prisma } from '../db';
+
 
 export const obtenirQuiz = async (req: Request, res: Response) => {
   // Exemple: /api/quiz?categorie=html&difficulte=1
   const { categorie, difficulte } = req.query;
 
   try {
-    const questionsSelectionnees = await db.question.findMany({
+    const questionsSelectionnees = await prisma.question.findMany({
       where: {
         categorie: categorie as string,
         difficulte: parseInt(difficulte as string),
@@ -25,7 +26,7 @@ export const obtenirQuiz = async (req: Request, res: Response) => {
     // CRUCIAL : On ne renvoie PAS le champ 'estCorrecte' au client pour éviter la triche !
     const quizComplet = await Promise.all(
       questionsSelectionnees.map(async (q: { id: number; enonce: string; pointsValeur: number }) => {
-        const choix = await db.reponse.findMany({
+        const choix = await prisma.reponse.findMany({
           where: { questionId: q.id },
           select: {
             id: true,
@@ -61,7 +62,7 @@ export const soumettreQuiz = async (req: any, res: Response) => {
             return res.status(400).json({ succes: false, message: "Aucune réponse fournie." });
         }
 
-        const detailsBonnesReponses = await db.reponse.findMany({
+        const detailsBonnesReponses = await prisma.reponse.findMany({
           where: {
             id: { in: reponsesUtilisateur },
             estCorrecte: true,
@@ -76,7 +77,7 @@ export const soumettreQuiz = async (req: any, res: Response) => {
         }, 0);
         const nbBonnesReponses = detailsBonnesReponses.length;
 
-        await db.partie.create({
+        await prisma.partie.create({
           data: {
             utilisateurId: Number(userId),
             scoreObtenu: nbBonnesReponses,
@@ -87,14 +88,14 @@ export const soumettreQuiz = async (req: any, res: Response) => {
           },
         });
 
-        const resultatSomme = await db.partie.aggregate({
+        const resultatSomme = await prisma.partie.aggregate({
           _sum: { pointsGagnes: true },
           where: { utilisateurId: Number(userId) },
         });
 
         const nouveauTotalGlobal = resultatSomme._sum.pointsGagnes ?? 0;
 
-        await db.utilisateur.update({
+        await prisma.utilisateur.update({
           where: { id: Number(userId) },
           data: { pointsTotaux: nouveauTotalGlobal },
         });
@@ -122,7 +123,7 @@ export const soumettreQuiz = async (req: any, res: Response) => {
 // --- CLASSEMENT top mondial---
 export const obtenirClassement = async (req: Request, res: Response) => {
     try {
-        const topJoueurs = await db.utilisateur.findMany({
+        const topJoueurs = await prisma.utilisateur.findMany({
           select: {
             nomUtilisateur: true,
             pointsTotaux: true,
@@ -149,7 +150,7 @@ export const obtenirMesParties = async (req: any, res: Response) => {
     const userId = req.utilisateur.userId; // Récupéré via le middleware verifierToken
 
     try {
-        const historique = await db.partie.findMany({
+        const historique = await prisma.partie.findMany({
           where: { utilisateurId: Number(userId) },
           orderBy: { joueLe: 'desc' },
         });
@@ -169,7 +170,7 @@ export const obtenirStatsUtilisateur = async (req: any, res: Response) => {
     const userId = req.utilisateur.userId;
 
     try {
-        const aggregates = await db.partie.aggregate({
+        const aggregates = await prisma.partie.aggregate({
           _sum: {
             scoreObtenu: true,
             totalQuestions: true,
@@ -186,7 +187,7 @@ export const obtenirStatsUtilisateur = async (req: any, res: Response) => {
           ? Math.round((scoreTotal / questionsTotales) * 100)
           : 0;
 
-        const categoriePreferee = await db.partie.groupBy({
+        const categoriePreferee = await prisma.partie.groupBy({
           by: ['categorieJouee'],
           where: { utilisateurId: Number(userId) },
           _count: {
