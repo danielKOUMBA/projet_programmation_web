@@ -3,15 +3,22 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>QuizMaster · Accueil</title>
-    <link rel="stylesheet" href="style.css" />
+    <title>QuizMaster — Testez Vos Connaissances</title>
+    <meta name="description" content="QuizMaster est une application de quiz amusante et compétitive. Défiez-vous, grimpez au classement et apprenez quelque chose de nouveau chaque jour.">
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style-modern.css" />
   </head>
   <body class="page">
     <!-- Navigation principale -->
     <header class="top-nav">
       <div class="top-nav-inner">
         <div class="brand">
-          <div class="brand-logo" aria-hidden="true"></div>
+          <div class="brand-logo">Q</div>
           <div>
             <div class="brand-text">QuizMaster</div>
             <p class="nav-username" id="nav-username-home" data-auth-visible="auth"></p>
@@ -23,94 +30,132 @@
           
           <!-- Liens visibles seulement si NON connecté -->
           <a href="#login" class="nav-link" data-auth-visible="guest">Connexion</a>
-          <a href="inscription.html" class="nav-link nav-link--primary" data-auth-visible="guest"
-            >Inscription</a
-          >
+          <a href="inscription.html" class="nav-link nav-link--primary" data-auth-visible="guest">Inscription</a>
+          
           <!-- Actions visibles seulement si connecté -->
-          <a
-            href="dashboard.html"
-            class="nav-link"
-            data-auth-visible="auth"
-            style="display: none"
-            >Tableau de bord</a
-          >
-          <button
-            id="logoutHome"
-            class="nav-link nav-link--primary"
-            type="button"
-            data-auth-visible="auth"
-            style="display: none"
-          >
-            Déconnexion
-          </button>
+          <a href="dashboard.html" class="nav-link" data-auth-visible="auth" style="display: none">Tableau de bord</a>
+          <button id="logoutHome" class="nav-link nav-link--primary" type="button" data-auth-visible="auth" style="display: none">Déconnexion</button>
         </nav>
       </div>
     </header>
 
     <main class="page-main">
       <!-- Hero d'accueil -->
-      <section class="section-header">
-        <p class="auth-eyebrow">Gratuit &amp; éducatif</p>
-        <h1 class="section-title">Défie ton esprit avec QuizMaster</h1>
-        <p class="section-subtitle">
-          Teste tes connaissances en HTML, CSS, JavaScript et bien plus encore. Joue des parties
-          rapides, suis ta progression et grimpe dans le classement.
+      <section class="hero fade-in">
+        <span class="hero__badge">Gratuit & Éducatif</span>
+        <h1 class="hero__title">Défie Votre Esprit avec QuizMaster</h1>
+        <p class="hero__subtitle">
+          Testez vos connaissances sur plusieurs sujets, affrontez des joueurs du monde entier
+          et suivez votre progression au classement général.
         </p>
+        
+        <div class="hero__actions">
+          <a href="quiz.html" class="btn btn--primary btn--lg">Commencer le Quiz</a>
+          <a href="inscription.html" class="btn btn--secondary btn--lg">Créer un Compte</a>
+        </div>
       </section>
 
-      <!-- Bloc visuel type "hero" -->
-      <section class="card mb-4">
-        <p class="card-caption">
-          Crée un compte pour sauvegarder tes scores ou connecte‑toi pour reprendre là où tu t’es
-          arrêté·e.
-        </p>
+      <!-- Section fonctionnalités -->
+      <section class="container container--wide" style="padding-bottom: 4rem;">
+        <div class="features">
+          <!-- Fonctionnalité 1 : Quiz Chronométré -->
+          <article class="feature-card slide-up" style="animation-delay: 100ms;">
+            <div class="feature-card__icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+            </div>
+            <h3 class="feature-card__title">Défis Chronométrés</h3>
+            <p class="feature-card__desc">
+              Courez contre la montre avec 30 secondes par question.
+              La rapidité et la précision sont récompensées.
+            </p>
+          </article>
+
+          <!-- Fonctionnalité 2 : Classement Mondial -->
+          <article class="feature-card slide-up" style="animation-delay: 200ms;">
+            <div class="feature-card__icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/>
+                <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/>
+                <path d="M4 22h16"/>
+                <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/>
+                <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/>
+                <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>
+              </svg>
+            </div>
+            <h3 class="feature-card__title">Classement Mondial</h3>
+            <p class="feature-card__desc">
+              Affrontez des joueurs du monde entier.
+              Grimpez les classements et prenez la première place.
+            </p>
+          </article>
+
+          <!-- Fonctionnalité 3 : Suivi des Progrès -->
+          <article class="feature-card slide-up" style="animation-delay: 300ms;">
+            <div class="feature-card__icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 3v18h18"/>
+                <path d="m19 9-5 5-4-4-3 3"/>
+              </svg>
+            </div>
+            <h3 class="feature-card__title">Suivez Vos Progrès</h3>
+            <p class="feature-card__desc">
+              Consultez votre tableau de bord personnel avec des statistiques détaillées,
+              l'historique des quiz et les tendances de performance.
+            </p>
+          </article>
+        </div>
       </section>
 
       <!-- Bloc de connexion intégré à la page d'accueil -->
-      <section id="login" class="auth-card" aria-labelledby="login-title">
-        <header class="auth-header">
-          <p class="auth-eyebrow">Connexion</p>
-          <h2 id="login-title" class="auth-title">Rejoins ta session</h2>
-          <p class="auth-subtitle">
+      <section id="login" class="auth-card card" data-auth-visible="guest">
+        <div class="card__header">
+          <h2 class="card__title">Rejoins ta session</h2>
+          <p class="card__subtitle">
             Entre ton email et ton mot de passe pour accéder à ton tableau de bord et à tes stats.
           </p>
-        </header>
+        </div>
+
+        <div id="login-alert" class="alert" role="alert" aria-live="polite"></div>
 
         <form id="login-form" novalidate>
-          <div class="field">
-            <label class="field-label" for="email">Email</label>
+          <div class="form-group">
+            <label for="email" class="form-label">Email</label>
             <input
               id="email"
               name="email"
               type="email"
-              class="field-input"
+              class="form-input"
               placeholder="tu@exemple.com"
               autocomplete="email"
               required
             />
+            <p id="login-email-error" class="form-error" role="alert"></p>
           </div>
 
-          <div class="field">
-            <label class="field-label" for="password">Mot de passe</label>
+          <div class="form-group">
+            <label for="password" class="form-label">Mot de passe</label>
             <input
               id="password"
               name="password"
               type="password"
-              class="field-input"
+              class="form-input"
               placeholder="••••••••"
               autocomplete="current-password"
               required
               minlength="6"
             />
+            <p id="login-password-error" class="form-error" role="alert"></p>
           </div>
 
-          <button type="submit" class="btn btn-primary btn-full" data-auth-visible="guest">
+          <button type="submit" class="btn btn--primary btn--block">
             Se connecter
           </button>
 
-          <div class="helper-row" data-auth-visible="guest">
-            <span>Pas encore de compte ?</span>
-            <a href="inscription.html" class="text-xs text-accent">Créer un compte</a>
+          <div class="auth-footer">
+            <p>Pas encore de compte ? <a href="inscription.html" class="text-primary">Créer un compte</a></p>
           </div>
 
           <p id="login-status" class="status-message" role="status" aria-live="polite"></p>

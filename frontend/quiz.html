@@ -3,16 +3,22 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Quiz Arena · Jouer</title>
-    <link rel="stylesheet" href="style.css" />
+    <title>Jouer — QuizMaster</title>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style-modern.css" />
   </head>
   <body class="page">
     <header class="top-nav">
       <div class="top-nav-inner">
         <div class="brand">
-          <div class="brand-logo" aria-hidden="true"></div>
+          <div class="brand-logo">Q</div>
           <div>
-            <div class="brand-text">Quiz Arena</div>
+            <div class="brand-text">QuizMaster</div>
             <p class="nav-username" id="nav-username-quiz"></p>
           </div>
         </div>
@@ -28,110 +34,124 @@
     </header>
 
     <main class="page-main">
-      <section class="section-header">
-        <h1 class="section-title">Nouveau quiz</h1>
-        <p class="section-subtitle">
+      <section class="hero fade-in">
+        <span class="hero__badge">🎯 Nouveau Défi</span>
+        <h1 class="hero__title">Lancer un quiz</h1>
+        <p class="hero__subtitle">
           Choisis ta catégorie et ta difficulté, puis tente la meilleure série de bonnes réponses
           possible.
         </p>
       </section>
 
-      <section class="quiz-layout">
-        <!-- Colonne principale : question + réponses -->
-        <article class="quiz-panel" aria-labelledby="quiz-question-title">
-          <header class="quiz-filter-row">
-            <label class="select-label text-xs" for="categorie-select">Catégorie</label>
-            <select id="categorie-select" class="select">
+      <section class="card" style="margin-top: var(--space-2xl);">
+        <div class="card__header">
+          <h2 class="card__title">Configuration du quiz</h2>
+          <p class="card__subtitle">
+            Sélectionne tes préférences pour commencer le défi
+          </p>
+        </div>
+
+        <div style="display: flex; gap: var(--space-md); flex-wrap: wrap; align-items: end; margin-bottom: var(--space-lg);">
+          <div style="flex: 1; min-width: 200px;">
+            <label for="categorie-select" class="form-label">Catégorie</label>
+            <select id="categorie-select" class="form-select">
               <option value="html">HTML</option>
               <option value="css">CSS</option>
               <option value="javascript">JavaScript</option>
               <option value="typescript">TypeScript</option>
             </select>
+          </div>
 
-            <label class="select-label text-xs" for="difficulte-select">Difficulté</label>
-            <select id="difficulte-select" class="select">
+          <div style="flex: 1; min-width: 200px;">
+            <label for="difficulte-select" class="form-label">Difficulté</label>
+            <select id="difficulte-select" class="form-select">
               <option value="1">Débutant</option>
               <option value="2">Intermédiaire</option>
               <option value="3">Avancé</option>
             </select>
+          </div>
 
-            <button id="startQuizBtn" class="btn btn-primary" type="button">
-              Lancer le quiz
+          <button id="startQuizBtn" class="btn btn--primary" type="button">
+            Lancer le quiz
+          </button>
+        </div>
+
+        <div id="quiz-empty" class="text-center" style="padding: var(--space-xl); color: var(--color-text-secondary);">
+          Configure ton quiz puis clique sur <span class="text-primary">Lancer le quiz</span>.
+        </div>
+
+        <div id="quiz-active" hidden>
+          <div style="display: flex; gap: var(--space-sm); margin-bottom: var(--space-lg); flex-wrap: wrap;">
+            <span class="hero__badge" style="margin: 0;">
+              Question <span id="question-index">1</span>/<span id="question-total">10</span>
+            </span>
+            <span class="hero__badge" style="margin: 0;">
+              <span id="meta-categorie">—</span> · <span id="meta-difficulte">—</span>
+            </span>
+            <span class="hero__badge" style="margin: 0;">
+              Potentiel : <span id="meta-points">0</span> pts
+            </span>
+          </div>
+
+          <div style="margin-bottom: var(--space-lg);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-sm);">
+              <span style="font-weight: 600;">Temps restant</span>
+              <span id="timer-label" style="font-weight: 700; color: var(--color-warning);">15 s</span>
+            </div>
+            <div style="width: 100%; height: 8px; background-color: var(--color-border); border-radius: var(--radius-sm); overflow: hidden;">
+              <div id="timer-bar" style="height: 100%; background-color: var(--color-warning); transition: width 1s linear; width: 100%;"></div>
+            </div>
+          </div>
+
+          <h2 id="quiz-question-title" class="card__title" style="text-align: center; margin-bottom: var(--space-xl);">Question en cours…</h2>
+
+          <div id="choices" class="choices-list" role="radiogroup" aria-label="Réponses" style="display: grid; gap: var(--space-md);"></div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: var(--space-xl);">
+            <span id="quiz-progress" style="color: var(--color-text-secondary); font-size: var(--font-size-sm);"></span>
+            <button id="nextBtn" class="btn btn--primary" type="button">
+              Question suivante
             </button>
-          </header>
-
-          <div id="quiz-empty" class="empty-state mt-2">
-            Configure ton quiz puis clique sur <span class="text-accent">Lancer le quiz</span>.
           </div>
+        </div>
 
-          <div id="quiz-active" hidden>
-            <div class="quiz-meta">
-              <div class="pill">
-                Question <span id="question-index">1</span>/<span id="question-total">10</span>
-              </div>
-              <div class="pill">
-                <span id="meta-categorie">—</span> ·
-                <span id="meta-difficulte">—</span>
-              </div>
-              <div class="pill">
-                Potentiel : <span id="meta-points">0</span> pts
-              </div>
-            </div>
-
-            <div class="timer-shell">
-              <div class="timer-label-row">
-                <span>Temps restant</span>
-                <span id="timer-label">15 s</span>
-              </div>
-              <div class="timer-bar-outer">
-                <div id="timer-bar" class="timer-bar-inner"></div>
-              </div>
-            </div>
-
-            <h2 id="quiz-question-title" class="question-enonce">Question en cours…</h2>
-
-            <div id="choices" class="choices-list" role="radiogroup" aria-label="Réponses"></div>
-
-            <div class="quiz-footer-row">
-              <span id="quiz-progress" class="muted text-xs"></span>
-              <button id="nextBtn" class="btn btn-primary" type="button">
-                Question suivante
-              </button>
-            </div>
-          </div>
-
-          <div id="quiz-result" class="empty-state mt-2" hidden></div>
-        </article>
-
-        <!-- Colonne latérale : récap + navigation questions -->
-        <aside class="quiz-sidebar" aria-label="Résumé de la partie">
-          <article class="card">
-            <h2 class="card-title">Vue d’ensemble</h2>
-            <p class="card-value">
-              <span id="sidebar-score">0</span>
-              <span class="text-sm text-accent">bonnes réponses (serveur)</span>
-            </p>
-            <p class="card-caption">
-              Les points sont calculés côté serveur à partir de tes réponses justes.
-            </p>
-            <p class="mt-2 text-xs muted">
-              À la fin de la partie, ton score sera automatiquement enregistré, et tes stats
-              globales mises à jour.
-            </p>
-          </article>
-
-          <article class="card">
-            <h2 class="card-title">Questions</h2>
-            <p class="text-xs muted mb-2">
-              Survole les puces pour voir la progression. Les puces remplies indiquent une réponse
-              sélectionnée.
-            </p>
-            <div id="questions-dots" class="pill-dot-row" aria-hidden="true"></div>
-          </article>
-        </aside>
+        <div id="quiz-result" class="text-center" style="padding: var(--space-xl);" hidden></div>
       </section>
 
-      <p id="quiz-status" class="status-message mt-3" aria-live="polite"></p>
+      <section style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-lg); margin-top: var(--space-xl);">
+        <article class="feature-card">
+          <div class="feature-card__icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 11l3 3L22 4"/>
+              <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+            </svg>
+          </div>
+          <h3 class="feature-card__title">Vue d'ensemble</h3>
+          <p style="font-size: var(--font-size-2xl); font-weight: 700; color: var(--color-success);">
+            <span id="sidebar-score">0</span>
+            <span style="font-size: var(--font-size-sm); font-weight: 400; color: var(--color-text-secondary);"> bonnes réponses</span>
+          </p>
+          <p class="feature-card__desc">
+            Les points sont calculés côté serveur à partir de tes réponses justes.
+          </p>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-card__icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+          </div>
+          <h3 class="feature-card__title">Progression</h3>
+          <div id="questions-dots" style="display: flex; gap: var(--space-xs); flex-wrap: wrap; justify-content: center; margin: var(--space-md) 0;" aria-hidden="true"></div>
+          <p class="feature-card__desc">
+            Les points indiquent les questions répondues. Clique sur une question pour la revoir.
+          </p>
+        </article>
+      </section>
+
+      <p id="quiz-status" class="status-message" style="margin-top: var(--space-lg);" aria-live="polite"></p>
     </main>
 
     <script src="js/config.js"></script>

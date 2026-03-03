@@ -3,16 +3,22 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Quiz Arena · Classement</title>
-    <link rel="stylesheet" href="style.css" />
+    <title>Classement — QuizMaster</title>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style-modern.css" />
   </head>
   <body class="page">
     <header class="top-nav">
       <div class="top-nav-inner">
         <div class="brand">
-          <div class="brand-logo" aria-hidden="true"></div>
+          <div class="brand-logo">Q</div>
           <div>
-            <div class="brand-text">Quiz Arena</div>
+            <div class="brand-text">QuizMaster</div>
             <p class="nav-username" id="nav-username-leaderboard"></p>
           </div>
         </div>
@@ -25,32 +31,33 @@
     </header>
 
     <main class="page-main">
-      <section class="section-header">
-        <h1 class="section-title">Classement général</h1>
-        <p class="section-subtitle">
+      <section class="hero fade-in">
+        <span class="hero__badge">🏆 Top 10 Mondial</span>
+        <h1 class="hero__title">Classement général</h1>
+        <p class="hero__subtitle">
           Découvre le Top 10 mondial des joueurs et vois où tu te situes.
         </p>
       </section>
 
-      <section class="table-shell" aria-labelledby="leaderboard-title">
-        <header class="section-header" style="padding: 0.9rem 1.1rem 0">
-          <div id="leaderboard-title" class="section-title">Top 10 des joueurs</div>
-          <p class="section-subtitle">
+      <section class="card" style="margin-top: var(--space-2xl);" aria-labelledby="leaderboard-title">
+        <div class="card__header">
+          <h2 id="leaderboard-title" class="card__title">Top 10 des joueurs</h2>
+          <p class="card__subtitle">
             Les points totaux sont recalculés automatiquement après chaque partie jouée.
           </p>
-        </header>
+        </div>
 
-        <div id="leaderboard-empty" class="empty-state" hidden>
+        <div id="leaderboard-empty" class="text-center" style="padding: var(--space-xl); color: var(--color-text-secondary);" hidden>
           Aucun joueur dans le classement pour le moment.
         </div>
 
-        <div class="table-scroll" id="leaderboard-table-shell" hidden>
-          <table aria-describedby="leaderboard-title">
+        <div id="leaderboard-table-shell" hidden>
+          <table style="width: 100%; border-collapse: collapse;" aria-describedby="leaderboard-title">
             <thead>
-              <tr>
-                <th>Rang</th>
-                <th>Joueur</th>
-                <th>Points</th>
+              <tr style="border-bottom: 1px solid var(--color-border);">
+                <th style="text-align: left; padding: var(--space-sm); font-weight: 600; color: var(--color-text-secondary);">Rang</th>
+                <th style="text-align: left; padding: var(--space-sm); font-weight: 600; color: var(--color-text-secondary);">Joueur</th>
+                <th style="text-align: left; padding: var(--space-sm); font-weight: 600; color: var(--color-text-secondary);">Points</th>
               </tr>
             </thead>
             <tbody id="leaderboard-body"></tbody>
@@ -58,7 +65,7 @@
         </div>
       </section>
 
-      <p id="leaderboard-status" class="status-message mt-3" aria-live="polite"></p>
+      <p id="leaderboard-status" class="status-message" style="margin-top: var(--space-lg);" aria-live="polite"></p>
     </main>
 
     <script src="js/config.js"></script>

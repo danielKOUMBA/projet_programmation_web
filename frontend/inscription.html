@@ -3,14 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>QuizMaster · Inscription</title>
-    <link rel="stylesheet" href="style.css" />
+    <title>Inscription — QuizMaster</title>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style-modern.css" />
   </head>
   <body class="page">
     <header class="top-nav">
       <div class="top-nav-inner">
         <div class="brand">
-          <div class="brand-logo" aria-hidden="true"></div>
+          <div class="brand-logo">Q</div>
           <div>
             <div class="brand-text">QuizMaster</div>
           </div>
@@ -23,67 +29,74 @@
       </div>
     </header>
 
-    <main class="auth-shell">
-      <section class="auth-card" aria-labelledby="signup-title">
-        <header class="auth-header">
-          <p class="auth-eyebrow">Inscription</p>
-          <h1 id="signup-title" class="auth-title">Créer un compte</h1>
-          <p class="auth-subtitle">
+    <main class="auth-page fade-in">
+      <div class="auth-card card">
+        <div class="card__header">
+          <div style="text-align: center; margin-bottom: 1.5rem;">
+            <div class="brand-logo" style="margin: 0 auto var(--space-sm);">Q</div>
+            <div class="brand-text">QuizMaster</div>
+          </div>
+          <h1 class="card__title">Créer un compte</h1>
+          <p class="card__subtitle">
             Choisis un nom de joueur, ton email et un mot de passe pour enregistrer tes scores.
           </p>
-        </header>
+        </div>
+
+        <div id="signup-alert" class="alert" role="alert" aria-live="polite"></div>
 
         <form id="signup-form" novalidate>
-          <div class="field">
-            <label class="field-label" for="signup-name">Nom de joueur</label>
+          <div class="form-group">
+            <label for="signup-name" class="form-label">Nom de joueur</label>
             <input
               id="signup-name"
               name="nom"
               type="text"
-              class="field-input"
+              class="form-input"
               placeholder="QuizMaster42"
               autocomplete="nickname"
               required
             />
+            <p id="signup-name-error" class="form-error" role="alert"></p>
           </div>
 
-          <div class="field">
-            <label class="field-label" for="signup-email">Email</label>
+          <div class="form-group">
+            <label for="signup-email" class="form-label">Email</label>
             <input
               id="signup-email"
               name="email"
               type="email"
-              class="field-input"
+              class="form-input"
               placeholder="tu@exemple.com"
               autocomplete="email"
               required
             />
+            <p id="signup-email-error" class="form-error" role="alert"></p>
           </div>
 
-          <div class="field">
-            <label class="field-label" for="signup-password">Mot de passe</label>
+          <div class="form-group">
+            <label for="signup-password" class="form-label">Mot de passe</label>
             <input
               id="signup-password"
               name="password"
               type="password"
-              class="field-input"
+              class="form-input"
               placeholder="••••••••"
               autocomplete="new-password"
               required
               minlength="6"
             />
+            <p id="signup-password-error" class="form-error" role="alert"></p>
           </div>
 
-          <button type="submit" class="btn btn-primary btn-full">Créer mon compte</button>
+          <button type="submit" class="btn btn--primary btn--block">Créer mon compte</button>
 
-          <div class="helper-row">
-            <span>Déjà un compte ?</span>
-            <a href="index.html#login" class="text-xs text-accent">Se connecter</a>
+          <div class="auth-footer">
+            <p>Déjà un compte ? <a href="index.html#login" class="text-primary">Se connecter</a></p>
           </div>
 
           <p id="signup-status" class="status-message" role="status" aria-live="polite"></p>
         </form>
-      </section>
+      </div>
     </main>
 
     <script src="js/config.js"></script>
