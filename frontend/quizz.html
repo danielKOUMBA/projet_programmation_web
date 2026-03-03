@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuizArena - Play</title>
+    <link rel="stylesheet" href="quizz.css">
+    
+</head>
+<body>
+
+    <div class="container quiz-container">
+        <div class="logo-title">
+            <img src="Capture d'écran 2026-02-28 140538.png"  class="logo">
+            <a href="index.html">QuizzArena</a>
+        </div>
+
+        <div class="stats">
+            <span>Question <span id="q-num">1</span>/10</span>
+            <span>Score: <span id="score">0</span></span>
+        </div>
+
+        <div class="timer-circle" id="timer">30</div>
+        
+        <h1 id="question" style="font-size: 1.4rem; margin-bottom: 10px;">Chargement...</h1>
+        <p id="description" style="font-size: 0.85rem; color: var(--text-muted);">Répondez vite pour gagner plus de points !</p>
+
+        <div class="options-container" id="options">
+            <button class="option-btn">Option 1</button>
+            <button class="option-btn">Option 2</button>
+            <button class="option-btn">Option 3</button>
+            <button class="option-btn">Option 4</button>
+        </div>
+    </div>
+
+    <script src="quizz.js"></script>
+</body>
+</html>

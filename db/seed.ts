@@ -56,7 +56,7 @@ const questionsData = [
       { libelle: "constant", estCorrecte: false },
     ]
   },
-  // --- API ---
+  // --- API ---                    
   {
     enonce: "Quelle méthode HTTP est utilisée pour créer une ressource ?",
     categorie: "api",

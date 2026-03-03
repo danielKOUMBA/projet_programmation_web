@@ -1,0 +1,116 @@
+:root {
+    --bg-dark: #0a0e14; 
+    --nav-dark: #12171d; 
+    --accent: #00d1b2; 
+    --text-main: #ffffff; 
+    --text-muted: #8b949e; 
+    --radius: 12px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container.quiz-container {
+    background-color: var(--nav-dark);
+    padding: 40px 30px;
+    border-radius: var(--radius);
+    width: 380px;
+    text-align: center;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+}
+
+.logo-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.logo-title .logo {
+    width: 40px;
+    height: auto;
+}
+
+.logo-title a {
+    color: var(--accent);
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.stats {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.timer-circle {
+    width: 60px;
+    height: 60px;
+    border: 3px solid var(--accent);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 20px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--text-main);
+}
+
+h1 {
+    margin-bottom: 10px;
+    font-size: 1.4rem;
+}
+
+p {
+    color: var(--text-muted);
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+}
+
+.options-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 25px;
+}
+
+.option-btn {
+    padding: 12px;
+    background-color: #1b1f27;
+    border: 1px solid #333;
+    border-radius: var(--radius);
+    color: var(--text-main);
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.option-btn:hover {
+    background-color: var(--accent);
+    color: var(--bg-dark);
+    border-color: var(--accent);
+    transform: translateY(-2px);
+}
