@@ -43,6 +43,12 @@ export type UtilisateurMinAggregateOutputType = {
   motDePasseHash: string | null
   pointsTotaux: number | null
   dateInscription: Date | null
+  lastLogin: Date | null
+  isVerified: boolean | null
+  verificationToken: string | null
+  verificationTokenExpiresAt: Date | null
+  resetPasswordToken: string | null
+  resetPasswordTokenExpiresAt: Date | null
 }
 
 export type UtilisateurMaxAggregateOutputType = {
@@ -52,6 +58,12 @@ export type UtilisateurMaxAggregateOutputType = {
   motDePasseHash: string | null
   pointsTotaux: number | null
   dateInscription: Date | null
+  lastLogin: Date | null
+  isVerified: boolean | null
+  verificationToken: string | null
+  verificationTokenExpiresAt: Date | null
+  resetPasswordToken: string | null
+  resetPasswordTokenExpiresAt: Date | null
 }
 
 export type UtilisateurCountAggregateOutputType = {
@@ -61,6 +73,12 @@ export type UtilisateurCountAggregateOutputType = {
   motDePasseHash: number
   pointsTotaux: number
   dateInscription: number
+  lastLogin: number
+  isVerified: number
+  verificationToken: number
+  verificationTokenExpiresAt: number
+  resetPasswordToken: number
+  resetPasswordTokenExpiresAt: number
   _all: number
 }
 
@@ -82,6 +100,12 @@ export type UtilisateurMinAggregateInputType = {
   motDePasseHash?: true
   pointsTotaux?: true
   dateInscription?: true
+  lastLogin?: true
+  isVerified?: true
+  verificationToken?: true
+  verificationTokenExpiresAt?: true
+  resetPasswordToken?: true
+  resetPasswordTokenExpiresAt?: true
 }
 
 export type UtilisateurMaxAggregateInputType = {
@@ -91,6 +115,12 @@ export type UtilisateurMaxAggregateInputType = {
   motDePasseHash?: true
   pointsTotaux?: true
   dateInscription?: true
+  lastLogin?: true
+  isVerified?: true
+  verificationToken?: true
+  verificationTokenExpiresAt?: true
+  resetPasswordToken?: true
+  resetPasswordTokenExpiresAt?: true
 }
 
 export type UtilisateurCountAggregateInputType = {
@@ -100,6 +130,12 @@ export type UtilisateurCountAggregateInputType = {
   motDePasseHash?: true
   pointsTotaux?: true
   dateInscription?: true
+  lastLogin?: true
+  isVerified?: true
+  verificationToken?: true
+  verificationTokenExpiresAt?: true
+  resetPasswordToken?: true
+  resetPasswordTokenExpiresAt?: true
   _all?: true
 }
 
@@ -196,6 +232,12 @@ export type UtilisateurGroupByOutputType = {
   motDePasseHash: string
   pointsTotaux: number
   dateInscription: Date
+  lastLogin: Date | null
+  isVerified: boolean
+  verificationToken: string | null
+  verificationTokenExpiresAt: Date | null
+  resetPasswordToken: string | null
+  resetPasswordTokenExpiresAt: Date | null
   _count: UtilisateurCountAggregateOutputType | null
   _avg: UtilisateurAvgAggregateOutputType | null
   _sum: UtilisateurSumAggregateOutputType | null
@@ -228,6 +270,12 @@ export type UtilisateurWhereInput = {
   motDePasseHash?: Prisma.StringFilter<"Utilisateur"> | string
   pointsTotaux?: Prisma.IntFilter<"Utilisateur"> | number
   dateInscription?: Prisma.DateTimeFilter<"Utilisateur"> | Date | string
+  lastLogin?: Prisma.DateTimeNullableFilter<"Utilisateur"> | Date | string | null
+  isVerified?: Prisma.BoolFilter<"Utilisateur"> | boolean
+  verificationToken?: Prisma.StringNullableFilter<"Utilisateur"> | string | null
+  verificationTokenExpiresAt?: Prisma.DateTimeNullableFilter<"Utilisateur"> | Date | string | null
+  resetPasswordToken?: Prisma.StringNullableFilter<"Utilisateur"> | string | null
+  resetPasswordTokenExpiresAt?: Prisma.DateTimeNullableFilter<"Utilisateur"> | Date | string | null
   parties?: Prisma.PartieListRelationFilter
 }
 
@@ -238,6 +286,12 @@ export type UtilisateurOrderByWithRelationInput = {
   motDePasseHash?: Prisma.SortOrder
   pointsTotaux?: Prisma.SortOrder
   dateInscription?: Prisma.SortOrder
+  lastLogin?: Prisma.SortOrderInput | Prisma.SortOrder
+  isVerified?: Prisma.SortOrder
+  verificationToken?: Prisma.SortOrderInput | Prisma.SortOrder
+  verificationTokenExpiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  resetPasswordToken?: Prisma.SortOrderInput | Prisma.SortOrder
+  resetPasswordTokenExpiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
   parties?: Prisma.PartieOrderByRelationAggregateInput
 }
 
@@ -251,6 +305,12 @@ export type UtilisateurWhereUniqueInput = Prisma.AtLeast<{
   motDePasseHash?: Prisma.StringFilter<"Utilisateur"> | string
   pointsTotaux?: Prisma.IntFilter<"Utilisateur"> | number
   dateInscription?: Prisma.DateTimeFilter<"Utilisateur"> | Date | string
+  lastLogin?: Prisma.DateTimeNullableFilter<"Utilisateur"> | Date | string | null
+  isVerified?: Prisma.BoolFilter<"Utilisateur"> | boolean
+  verificationToken?: Prisma.StringNullableFilter<"Utilisateur"> | string | null
+  verificationTokenExpiresAt?: Prisma.DateTimeNullableFilter<"Utilisateur"> | Date | string | null
+  resetPasswordToken?: Prisma.StringNullableFilter<"Utilisateur"> | string | null
+  resetPasswordTokenExpiresAt?: Prisma.DateTimeNullableFilter<"Utilisateur"> | Date | string | null
   parties?: Prisma.PartieListRelationFilter
 }, "id" | "nomUtilisateur" | "email">
 
@@ -261,6 +321,12 @@ export type UtilisateurOrderByWithAggregationInput = {
   motDePasseHash?: Prisma.SortOrder
   pointsTotaux?: Prisma.SortOrder
   dateInscription?: Prisma.SortOrder
+  lastLogin?: Prisma.SortOrderInput | Prisma.SortOrder
+  isVerified?: Prisma.SortOrder
+  verificationToken?: Prisma.SortOrderInput | Prisma.SortOrder
+  verificationTokenExpiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  resetPasswordToken?: Prisma.SortOrderInput | Prisma.SortOrder
+  resetPasswordTokenExpiresAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.UtilisateurCountOrderByAggregateInput
   _avg?: Prisma.UtilisateurAvgOrderByAggregateInput
   _max?: Prisma.UtilisateurMaxOrderByAggregateInput
@@ -278,6 +344,12 @@ export type UtilisateurScalarWhereWithAggregatesInput = {
   motDePasseHash?: Prisma.StringWithAggregatesFilter<"Utilisateur"> | string
   pointsTotaux?: Prisma.IntWithAggregatesFilter<"Utilisateur"> | number
   dateInscription?: Prisma.DateTimeWithAggregatesFilter<"Utilisateur"> | Date | string
+  lastLogin?: Prisma.DateTimeNullableWithAggregatesFilter<"Utilisateur"> | Date | string | null
+  isVerified?: Prisma.BoolWithAggregatesFilter<"Utilisateur"> | boolean
+  verificationToken?: Prisma.StringNullableWithAggregatesFilter<"Utilisateur"> | string | null
+  verificationTokenExpiresAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Utilisateur"> | Date | string | null
+  resetPasswordToken?: Prisma.StringNullableWithAggregatesFilter<"Utilisateur"> | string | null
+  resetPasswordTokenExpiresAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Utilisateur"> | Date | string | null
 }
 
 export type UtilisateurCreateInput = {
@@ -286,6 +358,12 @@ export type UtilisateurCreateInput = {
   motDePasseHash: string
   pointsTotaux?: number
   dateInscription?: Date | string
+  lastLogin?: Date | string | null
+  isVerified?: boolean
+  verificationToken?: string | null
+  verificationTokenExpiresAt?: Date | string | null
+  resetPasswordToken?: string | null
+  resetPasswordTokenExpiresAt?: Date | string | null
   parties?: Prisma.PartieCreateNestedManyWithoutUtilisateurInput
 }
 
@@ -296,6 +374,12 @@ export type UtilisateurUncheckedCreateInput = {
   motDePasseHash: string
   pointsTotaux?: number
   dateInscription?: Date | string
+  lastLogin?: Date | string | null
+  isVerified?: boolean
+  verificationToken?: string | null
+  verificationTokenExpiresAt?: Date | string | null
+  resetPasswordToken?: string | null
+  resetPasswordTokenExpiresAt?: Date | string | null
   parties?: Prisma.PartieUncheckedCreateNestedManyWithoutUtilisateurInput
 }
 
@@ -305,6 +389,12 @@ export type UtilisateurUpdateInput = {
   motDePasseHash?: Prisma.StringFieldUpdateOperationsInput | string
   pointsTotaux?: Prisma.IntFieldUpdateOperationsInput | number
   dateInscription?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLogin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   parties?: Prisma.PartieUpdateManyWithoutUtilisateurNestedInput
 }
 
@@ -315,6 +405,12 @@ export type UtilisateurUncheckedUpdateInput = {
   motDePasseHash?: Prisma.StringFieldUpdateOperationsInput | string
   pointsTotaux?: Prisma.IntFieldUpdateOperationsInput | number
   dateInscription?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLogin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   parties?: Prisma.PartieUncheckedUpdateManyWithoutUtilisateurNestedInput
 }
 
@@ -325,6 +421,12 @@ export type UtilisateurCreateManyInput = {
   motDePasseHash: string
   pointsTotaux?: number
   dateInscription?: Date | string
+  lastLogin?: Date | string | null
+  isVerified?: boolean
+  verificationToken?: string | null
+  verificationTokenExpiresAt?: Date | string | null
+  resetPasswordToken?: string | null
+  resetPasswordTokenExpiresAt?: Date | string | null
 }
 
 export type UtilisateurUpdateManyMutationInput = {
@@ -333,6 +435,12 @@ export type UtilisateurUpdateManyMutationInput = {
   motDePasseHash?: Prisma.StringFieldUpdateOperationsInput | string
   pointsTotaux?: Prisma.IntFieldUpdateOperationsInput | number
   dateInscription?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLogin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type UtilisateurUncheckedUpdateManyInput = {
@@ -342,6 +450,12 @@ export type UtilisateurUncheckedUpdateManyInput = {
   motDePasseHash?: Prisma.StringFieldUpdateOperationsInput | string
   pointsTotaux?: Prisma.IntFieldUpdateOperationsInput | number
   dateInscription?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLogin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type UtilisateurCountOrderByAggregateInput = {
@@ -351,6 +465,12 @@ export type UtilisateurCountOrderByAggregateInput = {
   motDePasseHash?: Prisma.SortOrder
   pointsTotaux?: Prisma.SortOrder
   dateInscription?: Prisma.SortOrder
+  lastLogin?: Prisma.SortOrder
+  isVerified?: Prisma.SortOrder
+  verificationToken?: Prisma.SortOrder
+  verificationTokenExpiresAt?: Prisma.SortOrder
+  resetPasswordToken?: Prisma.SortOrder
+  resetPasswordTokenExpiresAt?: Prisma.SortOrder
 }
 
 export type UtilisateurAvgOrderByAggregateInput = {
@@ -365,6 +485,12 @@ export type UtilisateurMaxOrderByAggregateInput = {
   motDePasseHash?: Prisma.SortOrder
   pointsTotaux?: Prisma.SortOrder
   dateInscription?: Prisma.SortOrder
+  lastLogin?: Prisma.SortOrder
+  isVerified?: Prisma.SortOrder
+  verificationToken?: Prisma.SortOrder
+  verificationTokenExpiresAt?: Prisma.SortOrder
+  resetPasswordToken?: Prisma.SortOrder
+  resetPasswordTokenExpiresAt?: Prisma.SortOrder
 }
 
 export type UtilisateurMinOrderByAggregateInput = {
@@ -374,6 +500,12 @@ export type UtilisateurMinOrderByAggregateInput = {
   motDePasseHash?: Prisma.SortOrder
   pointsTotaux?: Prisma.SortOrder
   dateInscription?: Prisma.SortOrder
+  lastLogin?: Prisma.SortOrder
+  isVerified?: Prisma.SortOrder
+  verificationToken?: Prisma.SortOrder
+  verificationTokenExpiresAt?: Prisma.SortOrder
+  resetPasswordToken?: Prisma.SortOrder
+  resetPasswordTokenExpiresAt?: Prisma.SortOrder
 }
 
 export type UtilisateurSumOrderByAggregateInput = {
@@ -402,6 +534,18 @@ export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
 }
 
+export type NullableDateTimeFieldUpdateOperationsInput = {
+  set?: Date | string | null
+}
+
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
+}
+
+export type NullableStringFieldUpdateOperationsInput = {
+  set?: string | null
+}
+
 export type UtilisateurCreateNestedOneWithoutPartiesInput = {
   create?: Prisma.XOR<Prisma.UtilisateurCreateWithoutPartiesInput, Prisma.UtilisateurUncheckedCreateWithoutPartiesInput>
   connectOrCreate?: Prisma.UtilisateurCreateOrConnectWithoutPartiesInput
@@ -422,6 +566,12 @@ export type UtilisateurCreateWithoutPartiesInput = {
   motDePasseHash: string
   pointsTotaux?: number
   dateInscription?: Date | string
+  lastLogin?: Date | string | null
+  isVerified?: boolean
+  verificationToken?: string | null
+  verificationTokenExpiresAt?: Date | string | null
+  resetPasswordToken?: string | null
+  resetPasswordTokenExpiresAt?: Date | string | null
 }
 
 export type UtilisateurUncheckedCreateWithoutPartiesInput = {
@@ -431,6 +581,12 @@ export type UtilisateurUncheckedCreateWithoutPartiesInput = {
   motDePasseHash: string
   pointsTotaux?: number
   dateInscription?: Date | string
+  lastLogin?: Date | string | null
+  isVerified?: boolean
+  verificationToken?: string | null
+  verificationTokenExpiresAt?: Date | string | null
+  resetPasswordToken?: string | null
+  resetPasswordTokenExpiresAt?: Date | string | null
 }
 
 export type UtilisateurCreateOrConnectWithoutPartiesInput = {
@@ -455,6 +611,12 @@ export type UtilisateurUpdateWithoutPartiesInput = {
   motDePasseHash?: Prisma.StringFieldUpdateOperationsInput | string
   pointsTotaux?: Prisma.IntFieldUpdateOperationsInput | number
   dateInscription?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLogin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type UtilisateurUncheckedUpdateWithoutPartiesInput = {
@@ -464,6 +626,12 @@ export type UtilisateurUncheckedUpdateWithoutPartiesInput = {
   motDePasseHash?: Prisma.StringFieldUpdateOperationsInput | string
   pointsTotaux?: Prisma.IntFieldUpdateOperationsInput | number
   dateInscription?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  lastLogin?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  isVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  verificationToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  verificationTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  resetPasswordToken?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  resetPasswordTokenExpiresAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 
@@ -504,6 +672,12 @@ export type UtilisateurSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   motDePasseHash?: boolean
   pointsTotaux?: boolean
   dateInscription?: boolean
+  lastLogin?: boolean
+  isVerified?: boolean
+  verificationToken?: boolean
+  verificationTokenExpiresAt?: boolean
+  resetPasswordToken?: boolean
+  resetPasswordTokenExpiresAt?: boolean
   parties?: boolean | Prisma.Utilisateur$partiesArgs<ExtArgs>
   _count?: boolean | Prisma.UtilisateurCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["utilisateur"]>
@@ -515,6 +689,12 @@ export type UtilisateurSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   motDePasseHash?: boolean
   pointsTotaux?: boolean
   dateInscription?: boolean
+  lastLogin?: boolean
+  isVerified?: boolean
+  verificationToken?: boolean
+  verificationTokenExpiresAt?: boolean
+  resetPasswordToken?: boolean
+  resetPasswordTokenExpiresAt?: boolean
 }, ExtArgs["result"]["utilisateur"]>
 
 export type UtilisateurSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -524,6 +704,12 @@ export type UtilisateurSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   motDePasseHash?: boolean
   pointsTotaux?: boolean
   dateInscription?: boolean
+  lastLogin?: boolean
+  isVerified?: boolean
+  verificationToken?: boolean
+  verificationTokenExpiresAt?: boolean
+  resetPasswordToken?: boolean
+  resetPasswordTokenExpiresAt?: boolean
 }, ExtArgs["result"]["utilisateur"]>
 
 export type UtilisateurSelectScalar = {
@@ -533,9 +719,15 @@ export type UtilisateurSelectScalar = {
   motDePasseHash?: boolean
   pointsTotaux?: boolean
   dateInscription?: boolean
+  lastLogin?: boolean
+  isVerified?: boolean
+  verificationToken?: boolean
+  verificationTokenExpiresAt?: boolean
+  resetPasswordToken?: boolean
+  resetPasswordTokenExpiresAt?: boolean
 }
 
-export type UtilisateurOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nomUtilisateur" | "email" | "motDePasseHash" | "pointsTotaux" | "dateInscription", ExtArgs["result"]["utilisateur"]>
+export type UtilisateurOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nomUtilisateur" | "email" | "motDePasseHash" | "pointsTotaux" | "dateInscription" | "lastLogin" | "isVerified" | "verificationToken" | "verificationTokenExpiresAt" | "resetPasswordToken" | "resetPasswordTokenExpiresAt", ExtArgs["result"]["utilisateur"]>
 export type UtilisateurInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   parties?: boolean | Prisma.Utilisateur$partiesArgs<ExtArgs>
   _count?: boolean | Prisma.UtilisateurCountOutputTypeDefaultArgs<ExtArgs>
@@ -555,6 +747,12 @@ export type $UtilisateurPayload<ExtArgs extends runtime.Types.Extensions.Interna
     motDePasseHash: string
     pointsTotaux: number
     dateInscription: Date
+    lastLogin: Date | null
+    isVerified: boolean
+    verificationToken: string | null
+    verificationTokenExpiresAt: Date | null
+    resetPasswordToken: string | null
+    resetPasswordTokenExpiresAt: Date | null
   }, ExtArgs["result"]["utilisateur"]>
   composites: {}
 }
@@ -985,6 +1183,12 @@ export interface UtilisateurFieldRefs {
   readonly motDePasseHash: Prisma.FieldRef<"Utilisateur", 'String'>
   readonly pointsTotaux: Prisma.FieldRef<"Utilisateur", 'Int'>
   readonly dateInscription: Prisma.FieldRef<"Utilisateur", 'DateTime'>
+  readonly lastLogin: Prisma.FieldRef<"Utilisateur", 'DateTime'>
+  readonly isVerified: Prisma.FieldRef<"Utilisateur", 'Boolean'>
+  readonly verificationToken: Prisma.FieldRef<"Utilisateur", 'String'>
+  readonly verificationTokenExpiresAt: Prisma.FieldRef<"Utilisateur", 'DateTime'>
+  readonly resetPasswordToken: Prisma.FieldRef<"Utilisateur", 'String'>
+  readonly resetPasswordTokenExpiresAt: Prisma.FieldRef<"Utilisateur", 'DateTime'>
 }
     
 

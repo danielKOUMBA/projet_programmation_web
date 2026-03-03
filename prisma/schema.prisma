@@ -8,13 +8,19 @@ datasource db {
 }
 
 model Utilisateur {
-  id              Int       @id @default(autoincrement())
-  nomUtilisateur  String    @map("nom_utilisateur") @unique
-  email           String    @unique
-  motDePasseHash  String    @map("mot_de_passe_hash")
-  pointsTotaux    Int       @default(0) @map("points_totaux")
-  dateInscription DateTime  @default(now()) @map("date_inscription")
-  parties         Partie[]
+  id                        Int       @id @default(autoincrement())
+  nomUtilisateur            String    @map("nom_utilisateur") @unique
+  email                     String    @unique
+  motDePasseHash            String    @map("mot_de_passe_hash")
+  pointsTotaux              Int       @default(0) @map("points_totaux")
+  dateInscription           DateTime  @default(now()) @map("date_inscription")
+  lastLogin                 DateTime? @map("last_login")
+  isVerified                Boolean   @default(false) @map("is_verified")
+  verificationToken         String?   @map("verification_token")
+  verificationTokenExpiresAt DateTime? @map("verification_token_expires_at")
+  resetPasswordToken        String?   @map("reset_password_token")
+  resetPasswordTokenExpiresAt DateTime? @map("reset_password_token_expires_at")
+  parties                   Partie[]
 
   @@map("utilisateurs")
 }

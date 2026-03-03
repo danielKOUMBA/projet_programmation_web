@@ -1,27 +1,27 @@
 /* ============================================================
-   QuizMaster - Modern Stylesheet (Based on frontend-2)
+   QuizMaster - Feuille de style moderne (Version française)
    ============================================================
-   A modern, dark-mode quiz application with responsive design.
+   Application de quiz moderne en mode sombre avec design responsive.
    
-   Color Palette:
-   - Background:     #0b0d17  (deep navy)
-   - Surface:        #131627  (card backgrounds)
-   - Surface Hover:  #1a1e35  (interactive states)
-   - Primary:        #00d4aa  (teal accent)
-   - Primary Hover:  #00f0c0  (lighter teal)
-   - Text:           #e8eaf0  (light gray)
-   - Text Secondary: #7b82a0  (muted gray)
-   - Danger:         #ff5c6c  (red for errors)
-   - Warning:        #ffb347  (orange for timers)
-   - Success:        #00d4aa  (same as primary)
-   - Border:         #1e2240  (subtle borders)
+   Palette de couleurs:
+   - Arrière-plan:     #0b0d17  (bleu marine profond)
+   - Surface:        #131627  (arrières-plan des cartes)
+   - Surface Hover:  #1a1e35  (états interactifs)
+   - Primaire:        #00d4aa  (accent turquoise)
+   - Primaire Hover:  #00f0c0  (turquoise plus clair)
+   - Texte:           #e8eaf0  (gris clair)
+   - Texte Secondaire: #7b82a0  (gris atténué)
+   - Danger:         #ff5c6c  (rouge pour les erreurs)
+   - Avertissement:   #ffb347  (orange pour les minuteurs)
+   - Succès:        #00d4aa  (même que primaire)
+   - Bordure:        #1e2240  (bordures subtiles)
    ============================================================ */
 
 /* ============================================================
-   1. CSS CUSTOM PROPERTIES (Variables)
+   1. PROPRIÉTÉS CSS PERSONNALISÉES (Variables)
    ============================================================ */
 :root {
-  /* -- Colors -- */
+  /* -- Couleurs -- */
   --color-bg:            #0b0d17;
   --color-surface:       #131627;
   --color-surface-hover: #1a1e35;
@@ -35,7 +35,7 @@
   --color-success:       #00d4aa;
   --color-border:        #1e2240;
 
-  /* -- Typography -- */
+  /* -- Typographie -- */
   --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-size-xs:   0.75rem;   /* 12px */
   --font-size-sm:   0.875rem;  /* 14px */
@@ -45,7 +45,7 @@
   --font-size-2xl:  2rem;      /* 32px */
   --font-size-3xl:  2.5rem;    /* 40px */
 
-  /* -- Spacing -- */
+  /* -- Espacement -- */
   --space-xs:  0.25rem;
   --space-sm:  0.5rem;
   --space-md:  1rem;
@@ -53,7 +53,7 @@
   --space-xl:  2rem;
   --space-2xl: 3rem;
 
-  /* -- Layout -- */
+  /* -- Mise en page -- */
   --radius-sm: 0.375rem;
   --radius-md: 0.75rem;
   --radius-lg: 1rem;
@@ -61,7 +61,7 @@
   --max-width:  480px;
   --max-width-lg: 960px;
 
-  /* -- Shadows -- */
+  /* -- Ombres -- */
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
   --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
@@ -74,7 +74,7 @@
 }
 
 /* ============================================================
-   2. RESET & BASE STYLES
+   2. STYLES DE BASE ET RÉINITIALISATION
    ============================================================ */
 *,
 *::before,
@@ -121,28 +121,28 @@ ul, ol {
 }
 
 /* ============================================================
-   3. UTILITY CLASSES
+   3. CLASSES D'UTILITÉ
    ============================================================ */
-.container {
+.conteneur {
   width: 100%;
   max-width: var(--max-width);
   margin: 0 auto;
   padding: 0 var(--space-lg);
 }
 
-.container--wide {
+.conteneur--large {
   max-width: var(--max-width-lg);
 }
 
-.text-center { text-align: center; }
-.text-secondary { color: var(--color-text-secondary); }
-.text-primary { color: var(--color-primary); }
-.text-danger { color: var(--color-danger); }
-.text-success { color: var(--color-success); }
-.text-warning { color: var(--color-warning); }
+.texte-centre { text-align: center; }
+.texte-secondaire { color: var(--color-text-secondary); }
+.texte-primaire { color: var(--color-primary); }
+.texte-danger { color: var(--color-danger); }
+.texte-succes { color: var(--color-success); }
+.texte-avertissement { color: var(--color-warning); }
 
-/* Visually hidden but accessible to screen readers */
-.sr-only {
+/* Masqué visuellement mais accessible aux lecteurs d'écran */
+.seulement-lecteur-ecran {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -154,38 +154,38 @@ ul, ol {
   border: 0;
 }
 
-/* Fade-in animation for page load */
-.fade-in {
-  animation: fadeIn var(--transition-slow) ease forwards;
+/* Animation d'apparition en fondu au chargement de la page */
+.apparition-fondu {
+  animation: apparitionFondu var(--transition-slow) ease forwards;
 }
 
-@keyframes fadeIn {
+@keyframes apparitionFondu {
   from { opacity: 0; transform: translateY(12px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Slide-up animation for staggered elements */
-.slide-up {
-  animation: slideUp var(--transition-slow) ease forwards;
+/* Animation de glissement vers le haut pour éléments décalés */
+.glissement-haut {
+  animation: glissementHaut var(--transition-slow) ease forwards;
 }
 
-@keyframes slideUp {
+@keyframes glissementHaut {
   from { opacity: 0; transform: translateY(24px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Pulse animation for timer warnings */
-@keyframes pulse {
+/* Animation de pulsation pour les avertissements de minuteur */
+@keyframes pulsation {
   0%, 100% { opacity: 1; }
   50%      { opacity: 0.5; }
 }
 
-.pulse {
-  animation: pulse 1s infinite;
+.pulsation {
+  animation: pulsation 1s infinite;
 }
 
-/* Shake animation for incorrect answers */
-@keyframes shake {
+/* Animation de secousse pour les réponses incorrectes */
+@keyframes secousse {
   0%, 100% { transform: translateX(0); }
   20%      { transform: translateX(-8px); }
   40%      { transform: translateX(8px); }
@@ -193,39 +193,63 @@ ul, ol {
   80%      { transform: translateX(4px); }
 }
 
-.shake {
-  animation: shake 0.4s ease;
+.secousse {
+  animation: secousse 0.4s ease;
 }
 
 /* ============================================================
-   4. NAVIGATION BAR
+   4. BARRE DE NAVIGATION
    ============================================================ */
-.navbar {
+/* TEST - Classes temporaires */
+.navigation-test {
+  width: 100%;
+  border-bottom: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.navigation-test-interieur {
+  max-width: var(--max-width-lg);
+  margin: 0 auto;
+  padding: var(--space-md) var(--space-lg);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--space-md) var(--space-lg);
-  background-color: var(--color-surface);
-  border-bottom: 1px solid var(--color-border);
-  position: sticky;
-  top: 0;
-  z-index: 100;
+  gap: var(--space-md);
 }
 
-.navbar__brand {
+.navigation-principale {
+  width: 100%;
+  border-bottom: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.navigation-principale-interieure {
+  max-width: var(--max-width-lg);
+  margin: 0 auto;
+  padding: var(--space-md) var(--space-lg);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+}
+
+.marque {
   display: flex;
   align-items: center;
   gap: var(--space-sm);
-  font-size: var(--font-size-lg);
-  font-weight: 700;
-  color: var(--color-text);
 }
 
-.navbar__brand-icon {
+.logo-marque {
   width: 28px;
   height: 28px;
-  background-color: var(--color-primary);
   border-radius: var(--radius-sm);
+  background-color: var(--color-primary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -234,13 +258,20 @@ ul, ol {
   font-size: var(--font-size-sm);
 }
 
-.navbar__links {
+.texte-marque {
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  font-size: var(--font-size-base);
+}
+
+.liens-navigation {
   display: flex;
   align-items: center;
   gap: var(--space-md);
+  font-size: var(--font-size-sm);
 }
 
-.navbar__link {
+.lien-navigation {
   color: var(--color-text-secondary);
   font-size: var(--font-size-sm);
   font-weight: 500;
@@ -249,27 +280,26 @@ ul, ol {
   transition: all var(--transition-fast);
 }
 
-.navbar__link:hover,
-.navbar__link--active {
+.lien-navigation:hover,
+.lien-navigation--primaire {
   color: var(--color-primary);
   background-color: var(--color-primary-faded);
 }
 
-.navbar__link--cta {
+.lien-navigation--primaire {
   background-color: var(--color-primary);
   color: var(--color-bg);
   padding: var(--space-xs) var(--space-md);
-  border-radius: var(--radius-sm);
   font-weight: 600;
 }
 
-.navbar__link--cta:hover {
+.lien-navigation--primaire:hover {
   background-color: var(--color-primary-hover);
   color: var(--color-bg);
 }
 
-/* Mobile hamburger menu */
-.navbar__toggle {
+/* Menu hamburger pour mobile */
+.bascule-navigation {
   display: none;
   background: none;
   border: none;
@@ -280,11 +310,11 @@ ul, ol {
 }
 
 @media (max-width: 640px) {
-  .navbar__toggle {
+  .bascule-navigation {
     display: block;
   }
 
-  .navbar__links {
+  .liens-navigation {
     display: none;
     position: absolute;
     top: 100%;
@@ -297,15 +327,15 @@ ul, ol {
     gap: var(--space-sm);
   }
 
-  .navbar__links--open {
+  .liens-navigation--ouvert {
     display: flex;
   }
 }
 
 /* ============================================================
-   5. CARD COMPONENT
+   5. COMPOSANT CARTE
    ============================================================ */
-.card {
+.carte {
   background-color: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
@@ -314,22 +344,22 @@ ul, ol {
   transition: box-shadow var(--transition-base);
 }
 
-.card:hover {
+.carte:hover {
   box-shadow: var(--shadow-md);
 }
 
-.card__header {
+.carte-en-tete {
   margin-bottom: var(--space-lg);
 }
 
-.card__title {
+.carte-titre {
   font-size: var(--font-size-xl);
   font-weight: 700;
   color: var(--color-text);
   margin-bottom: var(--space-xs);
 }
 
-.card__subtitle {
+.carte-sous-titre {
   font-size: var(--font-size-sm);
   color: var(--color-text-secondary);
 }
@@ -338,12 +368,12 @@ ul, ol {
    6. FORM ELEMENTS
    ============================================================ */
 
-/* -- Form Group -- */
-.form-group {
+/* -- Groupe de formulaire -- */
+.groupe-formulaire {
   margin-bottom: var(--space-lg);
 }
 
-.form-group label {
+.groupe-formulaire label {
   display: block;
   font-size: var(--font-size-sm);
   font-weight: 500;
@@ -351,8 +381,8 @@ ul, ol {
   margin-bottom: var(--space-xs);
 }
 
-/* -- Input Fields -- */
-.form-input {
+/* -- Champs de saisie -- */
+.champ-formulaire {
   width: 100%;
   padding: 0.75rem 1rem;
   font-size: var(--font-size-base);
@@ -365,22 +395,22 @@ ul, ol {
   transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
-.form-input::placeholder {
+.champ-formulaire::placeholder {
   color: var(--color-text-secondary);
   opacity: 0.6;
 }
 
-.form-input:focus {
+.champ-formulaire:focus {
   border-color: var(--color-primary);
   box-shadow: 0 0 0 3px var(--color-primary-faded);
 }
 
-.form-input--error {
+.champ-formulaire--erreur {
   border-color: var(--color-danger);
 }
 
-/* -- Select Dropdown -- */
-.form-select {
+/* -- Liste déroulante -- */
+.selection-formulaire {
   width: 100%;
   padding: 0.75rem 1rem;
   font-size: var(--font-size-base);
@@ -394,13 +424,13 @@ ul, ol {
   cursor: pointer;
 }
 
-.form-select:focus {
+.selection-formulaire:focus {
   border-color: var(--color-primary);
   box-shadow: 0 0 0 3px var(--color-primary-faded);
 }
 
-/* -- Textarea -- */
-.form-textarea {
+/* -- Zone de texte -- */
+.zone-texte-formulaire {
   width: 100%;
   padding: 0.75rem 1rem;
   font-size: var(--font-size-base);
@@ -415,22 +445,22 @@ ul, ol {
   min-height: 100px;
 }
 
-.form-textarea:focus {
+.zone-texte-formulaire:focus {
   border-color: var(--color-primary);
   box-shadow: 0 0 0 3px var(--color-primary-faded);
 }
 
-/* -- Error Messages -- */
-.form-error {
+/* -- Messages d'erreur -- */
+.erreur-formulaire {
   font-size: var(--font-size-xs);
   color: var(--color-danger);
   margin-top: var(--space-xs);
 }
 
 /* ============================================================
-   7. BUTTONS
+   7. BOUTONS
    ============================================================ */
-.btn {
+.bouton {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -448,94 +478,260 @@ ul, ol {
   outline: none;
 }
 
-.btn:focus-visible {
+.bouton:focus-visible {
   box-shadow: 0 0 0 3px var(--color-primary-faded);
 }
 
-.btn:disabled {
+.bouton:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
-/* -- Button Variants -- */
-.btn--primary {
+/* -- Variantes de bouton -- */
+.bouton--primaire {
   background-color: var(--color-primary);
   color: var(--color-bg);
 }
 
-.btn--primary:hover:not(:disabled) {
+.bouton--primaire:hover:not(:disabled) {
   background-color: var(--color-primary-hover);
   transform: translateY(-1px);
   box-shadow: var(--shadow-glow);
 }
 
-.btn--secondary {
+.bouton--secondaire {
   background-color: transparent;
   color: var(--color-primary);
   border: 1px solid var(--color-primary);
 }
 
-.btn--secondary:hover:not(:disabled) {
+.bouton--secondaire:hover:not(:disabled) {
   background-color: var(--color-primary-faded);
 }
 
-.btn--outline {
+.bouton--contour {
   background-color: transparent;
   color: var(--color-text);
   border: 1px solid var(--color-border);
 }
 
-.btn--outline:hover:not(:disabled) {
+.bouton--contour:hover:not(:disabled) {
   background-color: var(--color-surface-hover);
   border-color: var(--color-text-secondary);
 }
 
-.btn--ghost {
+.bouton--fantome {
   background-color: transparent;
   color: var(--color-text-secondary);
 }
 
-.btn--ghost:hover:not(:disabled) {
+.bouton--fantome:hover:not(:disabled) {
   background-color: var(--color-surface-hover);
   color: var(--color-text);
 }
 
-.btn--danger {
+.bouton--danger {
   background-color: var(--color-danger);
   color: var(--color-bg);
 }
 
-.btn--danger:hover:not(:disabled) {
+.bouton--danger:hover:not(:disabled) {
   background-color: #ff4757;
   transform: translateY(-1px);
 }
 
-/* -- Button Sizes -- */
-.btn--sm {
+/* -- Tailles de bouton -- */
+.bouton--petit {
   padding: 0.5rem 1rem;
   font-size: var(--font-size-sm);
 }
 
-.btn--lg {
+.bouton--grand {
   padding: 1rem 2rem;
   font-size: var(--font-size-lg);
 }
 
-.btn--block {
+.bouton--largeur-complete {
   width: 100%;
 }
 
 /* ============================================================
-   8. HERO SECTION
+   9. CLASSES JAVASCRIPT DYNAMIQUES
    ============================================================ */
-.hero {
+
+/* Classes pour les alertes JavaScript */
+.js-alerte {
+  position: fixed;
+  top: var(--space-lg);
+  right: var(--space-lg);
+  padding: var(--space-md) var(--space-lg);
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  z-index: 1000;
+  max-width: 300px;
+  box-shadow: var(--shadow-lg);
+}
+
+.js-alerte--info {
+  background-color: var(--color-primary);
+  color: var(--color-bg);
+}
+
+.js-alerte--error {
+  background-color: var(--color-danger);
+  color: var(--color-bg);
+}
+
+.js-alerte--success {
+  background-color: var(--color-success);
+  color: var(--color-bg);
+}
+
+.js-alerte--warning {
+  background-color: var(--color-warning);
+  color: var(--color-bg);
+}
+
+/* Classes pour la visibilité d'authentification */
+.auth-cache {
+  display: none !important;
+}
+
+.auth-visible {
+  display: block !important;
+}
+
+/* Classes pour les messages de statut */
+.message-statut {
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+  margin-top: var(--space-sm);
+}
+
+.message-statut--erreur {
+  background-color: rgba(255, 92, 108, 0.1);
+  color: var(--color-danger);
+  border: 1px solid rgba(255, 92, 108, 0.2);
+}
+
+.message-statut--succes {
+  background-color: rgba(0, 212, 170, 0.1);
+  color: var(--color-success);
+  border: 1px solid rgba(0, 212, 170, 0.2);
+}
+
+/* Classes pour les fonctionnalités */
+.fonctionnalites {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--space-xl);
+  margin-top: var(--space-2xl);
+}
+
+.carte-fonctionnalite {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  text-align: center;
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.carte-fonctionnalite:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.carte-fonctionnalite-icone {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto var(--space-md);
+  background-color: var(--color-primary-faded);
+  color: var(--color-primary);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carte-fonctionnalite-titre {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: var(--space-sm);
+}
+
+.carte-fonctionnalite-description {
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+/* Classes pour l'authentification */
+.carte-authentification {
+  max-width: 400px;
+  margin: var(--space-2xl) auto;
+}
+
+.pied-authentification {
+  text-align: center;
+  margin-top: var(--space-lg);
+  padding-top: var(--space-lg);
+  border-top: 1px solid var(--color-border);
+}
+
+.pied-authentification p {
+  margin-bottom: var(--space-sm);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+/* Classes pour les alertes */
+.alert {
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-md);
+  font-weight: 500;
+}
+
+.alert--error {
+  background-color: rgba(255, 92, 108, 0.1);
+  color: var(--color-danger);
+  border: 1px solid rgba(255, 92, 108, 0.2);
+}
+
+.alert--success {
+  background-color: rgba(0, 212, 170, 0.1);
+  color: var(--color-success);
+  border: 1px solid rgba(0, 212, 170, 0.2);
+}
+
+.alert--info {
+  background-color: rgba(0, 212, 170, 0.1);
+  color: var(--color-primary);
+  border: 1px solid rgba(0, 212, 170, 0.2);
+}
+
+/* Classes pour les étiquettes de formulaire */
+.etiquette-formulaire {
+  display: block;
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-xs);
+}
+
+/* ============================================================
+   8. SECTION BANNIÈRE
+   ============================================================ */
+.banniere {
   text-align: center;
   padding: var(--space-2xl) var(--space-lg);
   max-width: var(--max-width-lg);
   margin: 0 auto;
 }
 
-.hero__badge {
+.banniere-insigne {
   display: inline-block;
   padding: var(--space-xs) var(--space-md);
   background-color: var(--color-primary-faded);
@@ -546,7 +742,7 @@ ul, ol {
   margin-bottom: var(--space-lg);
 }
 
-.hero__title {
+.banniere-titre {
   font-size: var(--font-size-3xl);
   font-weight: 800;
   color: var(--color-text);
@@ -554,7 +750,7 @@ ul, ol {
   line-height: 1.2;
 }
 
-.hero__subtitle {
+.banniere-sous-titre {
   font-size: var(--font-size-lg);
   color: var(--color-text-secondary);
   margin-bottom: var(--space-2xl);
@@ -564,21 +760,21 @@ ul, ol {
   line-height: 1.6;
 }
 
-.hero__actions {
+.banniere-actions {
   display: flex;
   gap: var(--space-md);
   justify-content: center;
   flex-wrap: wrap;
 }
 
-.hero__image-wrapper {
+.banniere-image-enveloppe {
   margin-bottom: var(--space-xl);
   border-radius: var(--radius-lg);
   overflow: hidden;
   box-shadow: var(--shadow-lg);
 }
 
-.hero__image {
+.banniere-image {
   width: 100%;
   height: auto;
   display: block;
@@ -1053,7 +1249,50 @@ ul, ol {
 }
 
 /* ============================================================
-   14. RESPONSIVE DESIGN
+   15. JAVASCRIPT DYNAMIC STYLES
+   ============================================================ */
+
+/* Alert messages created by JavaScript */
+.js-alert {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  padding: 12px 20px;
+  border-radius: 8px;
+  color: white;
+  max-width: 300px;
+  word-wrap: break-word;
+}
+
+.js-alert--success {
+  background: #10b981;
+}
+
+.js-alert--error {
+  background: #ef4444;
+}
+
+.js-alert--info {
+  background: #3b82f6;
+}
+
+/* Auth visibility states */
+.auth-hidden {
+  display: none !important;
+}
+
+.auth-visible {
+  display: block !important;
+}
+
+/* Timer progress bar */
+.timer-bar {
+  transition: width 1s linear;
+}
+
+/* ============================================================
+   16. RESPONSIVE DESIGN
    ============================================================ */
 @media (max-width: 768px) {
   .container {

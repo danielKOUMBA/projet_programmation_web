@@ -384,10 +384,6 @@ export type ReponseUncheckedUpdateManyWithoutQuestionNestedInput = {
   deleteMany?: Prisma.ReponseScalarWhereInput | Prisma.ReponseScalarWhereInput[]
 }
 
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
-}
-
 export type ReponseCreateWithoutQuestionInput = {
   libelle: string
   estCorrecte?: boolean

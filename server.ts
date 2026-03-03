@@ -14,7 +14,7 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json()); // Pour lire le body des requêtes POST
 app.use(cookieParser()); // Pour lire le JWT dans les cookies
 app.use(cors({
-    origin: "http://localhost:5500",
+    origin: "http://localhost:5501",
     credentials: true
 }));
 
