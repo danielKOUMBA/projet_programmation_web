@@ -1,3 +1,35 @@
+// Gestion du menu hamburger pour mobile
+document.addEventListener('DOMContentLoaded', function() {
+  const menuToggle = document.getElementById('menu-toggle');
+  const navigationMenu = document.querySelector('.navigation-menu');
+  
+  if (menuToggle && navigationMenu) {
+    menuToggle.addEventListener('click', function(event) {
+      event.preventDefault();
+      event.stopPropagation();
+      navigationMenu.classList.toggle('ouvert');
+      menuToggle.textContent = navigationMenu.classList.contains('ouvert') ? '✕' : '☰';
+    });
+    
+    // Fermer le menu quand on clique en dehors
+    document.addEventListener('click', function(event) {
+      if (!menuToggle.contains(event.target) && !navigationMenu.contains(event.target)) {
+        navigationMenu.classList.remove('ouvert');
+        menuToggle.textContent = '☰';
+      }
+    });
+    
+    // Fermer le menu quand on clique sur un lien
+    const links = navigationMenu.querySelectorAll('a, button');
+    links.forEach(link => {
+      link.addEventListener('click', function() {
+        navigationMenu.classList.remove('ouvert');
+        menuToggle.textContent = '☰';
+      });
+    });
+  }
+});
+
 // Gestion du formulaire de connexion
 (function () {
   const form = document.getElementById('login-form');
@@ -65,4 +97,6 @@
     }
   });
 })();
+
+
 
