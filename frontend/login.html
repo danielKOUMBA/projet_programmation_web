@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Inscription — QuizMaster</title>
+    <title>Connexion — QuizMaster</title>
     
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,42 +26,28 @@
           <a href="index.html" class="lien-navigation">Accueil</a>
           <a href="quiz.html" class="lien-navigation">Jouer</a>
           <a href="classement.html" class="lien-navigation">Classement</a>
-          <a href="login.html" class="lien-navigation">Connexion</a>
+          <a href="inscription.html" class="lien-navigation lien-navigation--primaire">Inscription</a>
         </nav>
       </div>
     </header>
 
     <main class="page-main">
-      <!-- Bloc d'inscription -->
+      <!-- Bloc de connexion -->
       <section class="carte-authentification carte">
         <div class="carte-en-tete">
-          <h1 class="carte-titre">Créer un compte</h1>
+          <h1 class="carte-titre">Rejoins ta session</h1>
           <p class="carte-sous-titre">
-            Choisis un nom de joueur, ton email et un mot de passe pour enregistrer tes scores.
+            Entre ton email et ton mot de passe pour accéder à ton tableau de bord et à tes stats.
           </p>
         </div>
 
-        <div id="signup-alert" class="alert" role="alert" aria-live="polite"></div>
+        <div id="login-alert" class="alert" role="alert" aria-live="polite"></div>
 
-        <form id="signup-form" novalidate>
+        <form id="login-form" novalidate>
           <div class="groupe-formulaire">
-            <label for="signup-name" class="etiquette-formulaire">Nom de joueur</label>
+            <label for="email" class="etiquette-formulaire">Email</label>
             <input
-              id="signup-name"
-              name="nom"
-              type="text"
-              class="champ-formulaire"
-              placeholder="QuizMaster42"
-              autocomplete="nickname"
-              required
-            />
-            <p id="signup-name-error" class="erreur-formulaire" role="alert"></p>
-          </div>
-
-          <div class="groupe-formulaire">
-            <label for="signup-email" class="etiquette-formulaire">Email</label>
-            <input
-              id="signup-email"
+              id="email"
               name="email"
               type="email"
               class="champ-formulaire"
@@ -69,46 +55,35 @@
               autocomplete="email"
               required
             />
-            <p id="signup-email-error" class="erreur-formulaire" role="alert"></p>
+            <p id="login-email-error" class="erreur-formulaire" role="alert"></p>
           </div>
 
           <div class="groupe-formulaire">
-            <label for="signup-password" class="etiquette-formulaire">Mot de passe</label>
+            <label for="password" class="etiquette-formulaire">Mot de passe</label>
             <input
-              id="signup-password"
+              id="password"
               name="password"
               type="password"
               class="champ-formulaire"
               placeholder="•••••••"
-              autocomplete="new-password"
+              autocomplete="current-password"
               required
               minlength="6"
             />
-            <p id="signup-password-error" class="erreur-formulaire" role="alert"></p>
+            <p id="login-password-error" class="erreur-formulaire" role="alert"></p>
           </div>
 
-          <div class="groupe-formulaire">
-            <label for="signup-confirmation" class="etiquette-formulaire">Confirmer le mot de passe</label>
-            <input
-              id="signup-confirmation"
-              name="confirmation"
-              type="password"
-              class="champ-formulaire"
-              placeholder="•••••••"
-              autocomplete="new-password"
-              required
-              minlength="6"
-            />
-            <p id="signup-confirmation-error" class="erreur-formulaire" role="alert"></p>
+          <button type="submit" class="bouton bouton--primaire bouton--largeur-complete">
+            Se connecter
+          </button>
+
+          <div class="pied-authentification">
+            <p>Pas encore de compte ? <a href="inscription.html" class="texte-primaire">Créer un compte</a></p>
+            <p><a href="forgot-password.html" class="texte-primaire">Mot de passe oublié ?</a></p>
+            <p><a href="verification-email.html" class="texte-primaire">Vous n'avez pas reçu le code de vérification ?</a></p>
           </div>
 
-          <button type="submit" class="bouton bouton--primaire bouton--largeur-complete">Créer mon compte</button>
-
-          <div class="auth-footer">
-            <p>Déjà un compte ? <a href="index.html#login" class="text-primary">Se connecter</a></p>
-          </div>
-
-          <p id="signup-status" class="message-statut" role="status" aria-live="polite"></p>
+          <p id="login-status" class="message-statut" role="status" aria-live="polite"></p>
         </form>
       </section>
     </main>
@@ -135,7 +110,6 @@
         <div class="footer-section">
           <h4 class="footer-titre">Ressources</h4>
           <ul class="footer-liens">
-            <li><a href="login.html" class="footer-lien">Connexion</a></li>
             <li><a href="forgot-password.html" class="footer-lien">Mot de passe oublié</a></li>
             <li><a href="verification-email.html" class="footer-lien">Vérification email</a></li>
           </ul>
@@ -151,4 +125,3 @@
     <script src="js/forms.js"></script>
   </body>
 </html>
-

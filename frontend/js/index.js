@@ -8,11 +8,11 @@
   const setStatus = (message, type = 'info') => {
     if (!statusEl) return;
     statusEl.textContent = message;
-    statusEl.className = 'status-message';
+    statusEl.className = 'message-statut';
     if (type === 'error') {
-      statusEl.classList.add('status-message--error');
+      statusEl.classList.add('message-statut--erreur');
     } else if (type === 'success') {
-      statusEl.classList.add('status-message--success');
+      statusEl.classList.add('message-statut--succes');
     }
   };
 

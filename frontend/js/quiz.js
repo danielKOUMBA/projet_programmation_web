@@ -1,494 +1,323 @@
-// Logique du quiz : récupération des questions, gestion du timer et envoi des réponses
-(function () {
-  const token = window.localStorage.getItem('token');
+// Quiz professionnel avec interface moderne et responsive
+class ProfessionalQuizManager {
+  constructor() {
+    this.questions = [];
+    this.currentIndex = 0;
+    this.timer = null;
+    this.remainingSeconds = 15;
+    this.selectedAnswers = new Map();
+    this.init();
+  }
 
-  const startBtn = document.getElementById('startQuizBtn');
-  const nextBtn = document.getElementById('nextBtn');
-  const categorieSelect = document.getElementById('categorie-select');
-  const difficulteSelect = document.getElementById('difficulte-select');
-  const quizEmpty = document.getElementById('quiz-empty');
-  const quizActive = document.getElementById('quiz-active');
-  const quizResult = document.getElementById('quiz-result');
-  const statusEl = document.getElementById('quiz-status');
-  const enonceEl = document.getElementById('quiz-question-title');
-  const choicesEl = document.getElementById('choices');
-  const timerLabel = document.getElementById('timer-label');
-  const timerBar = document.getElementById('timer-bar');
-  const questionIndexEl = document.getElementById('question-index');
-  const questionTotalEl = document.getElementById('question-total');
-  const metaCategorie = document.getElementById('meta-categorie');
-  const metaDifficulte = document.getElementById('meta-difficulte');
-  const metaPoints = document.getElementById('meta-points');
-  const quizProgress = document.getElementById('quiz-progress');
-  const dotsContainer = document.getElementById('questions-dots');
-  const sidebarScore = document.getElementById('sidebar-score');
-  const navUsername = document.getElementById('nav-username-quiz');
-  const logoutBtn = document.getElementById('logoutBtn');
-
-  const QUESTION_DURATION = 15; // en secondes
-
-  let questions = [];
-  let currentIndex = 0;
-  let timer = null;
-  let remainingSeconds = QUESTION_DURATION;
-  const selectedAnswers = new Map(); // questionId -> reponseId
-
-  const authHeaders = token
-    ? {
-        Authorization: `Bearer ${token}`,
-      }
-    : {};
-
-  const setStatus = (message, type = 'info') => {
-    if (!statusEl) return;
-    statusEl.textContent = message || '';
-    statusEl.className = 'status-message mt-3';
-    if (type === 'error') {
-      statusEl.classList.add('status-message--error');
-    } else if (type === 'success') {
-      statusEl.classList.add('status-message--success');
-    }
-  };
-
-  const attachLogout = () => {
-    if (!logoutBtn) return;
-    logoutBtn.addEventListener('click', async () => {
-      try {
-        await fetch(`${window.API_BASE_URL}/auth/deconnexion`, {
-          method: 'POST',
-          credentials: 'include',
-        });
-      } catch {
-        // silencieux
-      }
-      window.localStorage.removeItem('token');
-      window.location.href = 'index.html';
-    });
-  };
-
-  const initUserName = () => {
-    fetch(`${window.API_BASE_URL}/auth/check-auth`, {
-      method: 'GET',
-      credentials: 'include',
-      headers: authHeaders,
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (!data || !data.succes || !data.utilisateur) return;
-        const name = data.utilisateur.nom;
-        if (navUsername) navUsername.textContent = name;
-      })
-      .catch(() => {
-        // silencieux
+  async init() {
+    // Attendre que l'auth soit initialisé
+    if (!window.authService.isInitialized) {
+      await new Promise(resolve => {
+        const checkInit = () => {
+          if (window.authService.isInitialized) {
+            resolve();
+          } else {
+            setTimeout(checkInit, 100);
+          }
+        };
+        checkInit();
       });
-  };
-
-  const resetTimer = () => {
-    if (timer) {
-      window.clearInterval(timer);
-      timer = null;
-    }
-    remainingSeconds = QUESTION_DURATION;
-    if (timerLabel) {
-      timerLabel.textContent = `${remainingSeconds} s`;
-    }
-    if (timerBar) {
-      timerBar.style.transform = 'scaleX(1)';
-    }
-  };
-
-  const startTimer = () => {
-    resetTimer();
-    const total = QUESTION_DURATION;
-
-    timer = window.setInterval(() => {
-      remainingSeconds -= 1;
-
-      if (remainingSeconds < 0) {
-        // Temps écoulé : on passe automatiquement à la question suivante
-        window.clearInterval(timer);
-        timer = null;
-        handleNextQuestion();
-        return;
-      }
-
-      if (timerLabel) {
-        timerLabel.textContent = `${remainingSeconds} s`;
-      }
-      if (timerBar) {
-        const progress = remainingSeconds / total;
-        timerBar.style.transform = `scaleX(${progress})`;
-      }
-    }, 1000);
-  };
-
-  const renderDots = () => {
-    if (!dotsContainer) return;
-    dotsContainer.innerHTML = '';
-
-    questions.forEach((q, index) => {
-      const dot = document.createElement('button');
-      dot.type = 'button';
-      dot.className = 'pill-dot';
-
-      if (index === currentIndex) {
-        dot.classList.add('pill-dot--active');
-      } else if (selectedAnswers.has(q.id)) {
-        dot.classList.add('pill-dot--answered');
-      }
-
-      dot.textContent = String(index + 1);
-      dot.title = `Question ${index + 1}`;
-      dot.addEventListener('click', () => {
-        goToQuestion(index);
-      });
-      dotsContainer.appendChild(dot);
-    });
-  };
-
-  const renderDotsWithResults = (reponsesCorrectes) => {
-    if (!dotsContainer) return;
-    dotsContainer.innerHTML = '';
-
-    questions.forEach((q, index) => {
-      const dot = document.createElement('button');
-      dot.type = 'button';
-      dot.className = 'pill-dot';
-
-      const userAnswerId = selectedAnswers.get(q.id);
-      const correctAnswerId = reponsesCorrectes[index];
-
-      if (userAnswerId === correctAnswerId) {
-        dot.classList.add('pill-dot--correct');
-      } else if (userAnswerId) {
-        dot.classList.add('pill-dot--incorrect');
-      } else {
-        dot.classList.add('pill-dot--answered');
-      }
-
-      dot.textContent = String(index + 1);
-      dot.title = `Question ${index + 1} - ${userAnswerId === correctAnswerId ? 'Correct' : userAnswerId ? 'Incorrect' : 'Non répondue'}`;
-      dotsContainer.appendChild(dot);
-    });
-  };
-
-  const renderQuestion = () => {
-    if (!questions.length || !choicesEl || !enonceEl) return;
-    const question = questions[currentIndex];
-
-    enonceEl.textContent = question.enonce;
-    if (metaPoints) metaPoints.textContent = question.points ?? 0;
-
-    const total = questions.length;
-    if (questionIndexEl) questionIndexEl.textContent = String(currentIndex + 1);
-    if (questionTotalEl) questionTotalEl.textContent = String(total);
-
-    const answeredCount = selectedAnswers.size;
-    if (quizProgress) {
-      quizProgress.textContent = `${answeredCount}/${total} questions marquées comme répondues.`;
     }
 
-    choicesEl.innerHTML = '';
-
-    const existingAnswerId = selectedAnswers.get(question.id);
-
-    (question.choix || []).forEach((choix) => {
-      const choice = document.createElement('button');
-      choice.type = 'button';
-      choice.className = 'choice';
-
-      const circle = document.createElement('span');
-      circle.className = 'choice-input';
-
-      const label = document.createElement('span');
-      label.className = 'choice-label';
-      label.textContent = choix.libelle;
-
-      choice.appendChild(circle);
-      choice.appendChild(label);
-
-      if (existingAnswerId === choix.id) {
-        choice.classList.add('selected');
-      }
-
-      choice.addEventListener('click', () => {
-        // On sélectionne cette réponse et on désélectionne les autres
-        selectedAnswers.set(question.id, choix.id);
-
-        Array.from(choicesEl.children).forEach((node) => {
-          node.classList.remove('selected');
-        });
-        choice.classList.add('selected');
-
-        renderDots();
-      });
-
-      choicesEl.appendChild(choice);
-    });
-
-    // Met à jour les métadonnées affichées
-    if (metaCategorie) {
-      metaCategorie.textContent = (categorieSelect && categorieSelect.value) || '—';
-    }
-    if (metaDifficulte) {
-      const diffValue = difficulteSelect && difficulteSelect.value;
-      const label =
-        diffValue === '1' ? 'Débutant' : diffValue === '2' ? 'Intermédiaire' : 'Avancé';
-      metaDifficulte.textContent = label;
+    // Vérifier l'authentification
+    if (!window.authService.isAuthenticated()) {
+      this.showAuthError();
+      return;
     }
 
-    renderDots();
-    startTimer();
-  };
+    this.setupEventListeners();
+    this.updateUserInfo();
+    this.initializeUI();
+  }
 
-  const goToQuestion = (index) => {
-    if (index < 0 || index >= questions.length) return;
-    currentIndex = index;
-    renderQuestion();
-  };
+  showAuthError() {
+    const container = document.querySelector('.page-main') || document.querySelector('main');
+    if (container) {
+      container.innerHTML = `
+        <div class="quiz-container">
+          <div class="quiz-result">
+            <div class="result-title">⚠️ Accès Restreint</div>
+            <p style="font-size: 1.2rem; margin: 1rem 0;">Veuillez vous connecter pour accéder au quiz</p>
+            <button class="btn-restart" onclick="window.location.href='index.html'">
+              Retour à l'accueil
+            </button>
+          </div>
+        </div>
+      `;
+    }
+  }
 
-  const finishQuiz = async () => {
-    resetTimer();
+  initializeUI() {
+    // S'assurer que l'interface est correctement initialisée
+    const quizEmpty = document.getElementById('quiz-empty');
+    const quizActive = document.getElementById('quiz-active');
+    const quizResult = document.getElementById('quiz-result');
 
-    const reponsesUtilisateur = Array.from(selectedAnswers.values());
+    if (quizEmpty) quizEmpty.hidden = false;
+    if (quizActive) quizActive.hidden = true;
+    if (quizResult) quizResult.hidden = true;
+  }
 
-    if (!reponsesUtilisateur.length) {
-      setStatus(
-        "Aucune réponse sélectionnée. La partie ne sera pas enregistrée, mais tu peux relancer un quiz.",
-        'error'
-      );
-      if (quizResult) {
-        quizResult.hidden = false;
-        quizResult.innerHTML =
-          "<p>Aucune réponse n'a été envoyée. Essaie une nouvelle partie pour enregistrer un score.</p>";
-      }
+  updateUserInfo() {
+    const user = window.authService.getCurrentUser();
+    const navUsername = document.getElementById('nav-username-quiz');
+    if (navUsername && user) {
+      navUsername.textContent = user.nom || user.nomUtilisateur || 'Utilisateur';
+    }
+  }
+
+  setupEventListeners() {
+    const startBtn = document.getElementById('startQuizBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    if (startBtn) {
+      startBtn.addEventListener('click', () => this.startQuiz());
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener('click', () => this.nextQuestion());
+    }
+  }
+
+  async startQuiz() {
+    const categorieSelect = document.getElementById('categorie-select');
+    const difficulteSelect = document.getElementById('difficulte-select');
+    const categorie = categorieSelect?.value;
+    const difficulte = difficulteSelect?.value;
+
+    if (!categorie || !difficulte) {
+      window.authService.showAlert('Veuillez sélectionner une catégorie et une difficulté', 'error');
       return;
     }
 
     try {
-      const categorie = categorieSelect && categorieSelect.value;
-      const difficulte = difficulteSelect && difficulteSelect.value;
+      const params = new URLSearchParams({ categorie, difficulte });
+      const data = await window.authService.apiRequest(`/quiz?${params.toString()}`);
 
-      const response = await fetch(`${window.API_BASE_URL}/quiz/soumettre`, {
+      if (!data.succes) {
+        window.authService.showAlert(data.message || 'Impossible de charger les questions', 'error');
+        return;
+      }
+
+      this.questions = data.questions || [];
+      this.selectedAnswers.clear();
+      this.currentIndex = 0;
+
+      if (!this.questions.length) {
+        window.authService.showAlert('Aucune question disponible', 'error');
+        return;
+      }
+
+      this.showQuizInterface();
+      this.displayQuestion();
+    } catch (error) {
+      console.error('Erreur chargement quiz:', error);
+      window.authService.showAlert('Erreur lors du chargement du quiz', 'error');
+    }
+  }
+
+  showQuizInterface() {
+    const quizEmpty = document.getElementById('quiz-empty');
+    const quizActive = document.getElementById('quiz-active');
+    const quizResult = document.getElementById('quiz-result');
+
+    if (quizEmpty) quizEmpty.hidden = true;
+    if (quizActive) quizActive.hidden = false;
+    if (quizResult) quizResult.hidden = true;
+  }
+
+  displayQuestion() {
+    if (this.currentIndex >= this.questions.length) {
+      this.submitQuiz();
+      return;
+    }
+
+    const question = this.questions[this.currentIndex];
+    const enonceEl = document.getElementById('quiz-question-title');
+    const choicesEl = document.getElementById('choices');
+    const questionIndexEl = document.getElementById('question-index');
+    const questionTotalEl = document.getElementById('question-total');
+    const metaCategorie = document.getElementById('meta-categorie');
+    const metaDifficulte = document.getElementById('meta-difficulte');
+    const metaPoints = document.getElementById('meta-points');
+
+    if (enonceEl) enonceEl.textContent = question.enonce;
+    if (questionIndexEl) questionIndexEl.textContent = this.currentIndex + 1;
+    if (questionTotalEl) questionTotalEl.textContent = this.questions.length;
+    if (metaCategorie) metaCategorie.textContent = question.categorie || '—';
+    if (metaDifficulte) metaDifficulte.textContent = question.difficulte || '—';
+    if (metaPoints) metaPoints.textContent = question.points || '—';
+
+    // Afficher les choix avec le nouveau design
+    if (choicesEl) {
+      choicesEl.innerHTML = '';
+      choicesEl.className = 'choix-liste';
+      
+      if (!question.choix || question.choix.length === 0) {
+        console.error('Aucun choix trouvé pour la question:', question);
+        const errorDiv = document.createElement('div');
+        errorDiv.textContent = 'Aucune réponse disponible';
+        errorDiv.style.padding = 'var(--space-md)';
+        errorDiv.style.color = 'var(--color-danger)';
+        choicesEl.appendChild(errorDiv);
+        return;
+      }
+      
+      question.choix.forEach((choix, index) => {
+        const choiceDiv = document.createElement('div');
+        choiceDiv.className = 'choix-item';
+        choiceDiv.innerHTML = `
+          <input type="radio" name="answer" value="${choix.id}" id="choice-${index}">
+          <label for="choice-${index}">${choix.libelle}</label>
+        `;
+        
+        choiceDiv.addEventListener('click', () => {
+          // Désélectionner tous les autres choix
+          document.querySelectorAll('.choix-item').forEach(item => {
+            item.classList.remove('selected');
+          });
+          
+          // Sélectionner le choix actuel
+          choiceDiv.classList.add('selected');
+          document.getElementById(`choice-${index}`).checked = true;
+          this.selectedAnswers.set(question.id, choix.id);
+        });
+
+        choicesEl.appendChild(choiceDiv);
+      });
+    }
+
+    this.startTimer();
+    this.updateProgress();
+  }
+
+  startTimer() {
+    this.resetTimer();
+    const total = 15;
+
+    this.timer = window.setInterval(() => {
+      this.remainingSeconds -= 1;
+
+      const timerLabel = document.getElementById('timer-label');
+      const timerBar = document.getElementById('timer-bar');
+
+      if (timerLabel) {
+        timerLabel.textContent = `${this.remainingSeconds} s`;
+      }
+
+      if (timerBar) {
+        const scale = this.remainingSeconds / total;
+        timerBar.style.width = `${Math.max(0, scale * 100)}%`;
+        timerBar.classList.add('barre-minuteur');
+      }
+
+      if (this.remainingSeconds <= 0) {
+        this.nextQuestion();
+      }
+    }, 1000);
+  }
+
+  resetTimer() {
+    if (this.timer) {
+      window.clearInterval(this.timer);
+      this.timer = null;
+    }
+    this.remainingSeconds = 15;
+    
+    const timerLabel = document.getElementById('timer-label');
+    const timerBar = document.getElementById('timer-bar');
+    
+    if (timerLabel) timerLabel.textContent = '15 s';
+    if (timerBar) {
+      timerBar.style.width = '100%';
+      timerBar.classList.add('barre-minuteur');
+    }
+  }
+
+  nextQuestion() {
+    this.resetTimer();
+    this.currentIndex++;
+    this.displayQuestion();
+  }
+
+  updateProgress() {
+    const progressEl = document.getElementById('quiz-progress');
+    if (progressEl) {
+      progressEl.textContent = `Question ${this.currentIndex + 1} sur ${this.questions.length}`;
+    }
+  }
+
+  async submitQuiz() {
+    const answers = Array.from(this.selectedAnswers.values());
+    
+    if (answers.length === 0) {
+      window.authService.showAlert('Veuillez répondre à au moins une question', 'error');
+      return;
+    }
+
+    try {
+      const categorieSelect = document.getElementById('categorie-select');
+      const difficulteSelect = document.getElementById('difficulte-select');
+      const categorie = categorieSelect?.value;
+      const difficulte = difficulteSelect?.value;
+
+      const data = await window.authService.apiRequest('/quiz/soumettre', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          ...authHeaders,
-        },
-        credentials: 'include',
         body: JSON.stringify({
-          reponsesUtilisateur,
+          reponsesUtilisateur: answers,
           categorie,
           difficulte,
         }),
       });
 
-      const data = await response.json().catch(() => ({}));
-
-      if (!response.ok || !data.succes) {
-        setStatus(
-          data.message || 'Impossible denregistrer ton score. Réessaie dans quelques instants.',
-          'error'
-        );
+      if (!data.succes) {
+        window.authService.showAlert(data.message || 'Erreur lors de la soumission', 'error');
         return;
       }
 
-      const resultats = data.resultats || {};
-      const score = resultats.score ?? 0;
-      const points = resultats.points ?? 0;
-      const total = resultats.totalQuestions ?? questions.length;
-      const reponsesCorrectes = resultats.reponsesCorrectes || [];
-
-      if (sidebarScore) sidebarScore.textContent = String(score);
-
-      // Afficher les résultats avec les couleurs vert/rouge
-      showQuizResults(reponsesCorrectes);
-
-      if (quizResult) {
-        quizResult.hidden = false;
-        quizResult.innerHTML = `
-          <div class="badge mb-2">
-            Résultats enregistrés
-          </div>
-          <p class="mt-1">
-            Tu as obtenu <span class="text-accent">${score}/${total}</span> bonnes réponses
-            pour un total de <span class="text-accent">${points} points</span>.
-          </p>
-          <p class="mt-2 text-xs muted">
-            Tes statistiques globales et le classement ont été mis à jour automatiquement.
-          </p>
-          <p class="mt-2 text-xs">
-            <a href="dashboard.html" class="text-accent">Retourner au tableau de bord</a>
-            ou <button type="button" id="replayBtn" class="btn btn-ghost text-xs">Relancer un quiz</button>.
-          </p>
-        `;
-
-        const replayBtn = document.getElementById('replayBtn');
-        if (replayBtn) {
-          replayBtn.addEventListener('click', () => {
-            window.location.reload();
-          });
-        }
-      }
-
-      setStatus('Score enregistré avec succès ✅', 'success');
+      this.showResults(data.resultats);
     } catch (error) {
-      console.error(error);
-      setStatus("Erreur réseau lors de l'enregistrement du score.", 'error');
+      console.error('Erreur soumission:', error);
+      window.authService.showAlert('Erreur lors de la soumission', 'error');
     }
-  };
+  }
 
-  const showQuizResults = (reponsesCorrectes) => {
-    // Mettre à jour les points de progression avec les couleurs
-    renderDotsWithResults(reponsesCorrectes);
-    
-    // Afficher toutes les questions avec les réponses correctes/incorrectes
-    questions.forEach((question, index) => {
-      const userAnswerId = selectedAnswers.get(question.id);
-      const correctAnswerId = reponsesCorrectes[index];
-      
-      // Recréer les choix pour cette question
-      const choicesContainer = document.createElement('div');
-      choicesContainer.className = 'choices-list';
-      choicesContainer.style.marginBottom = 'var(--space-lg)';
-      
-      (question.choix || []).forEach((choix) => {
-        const choice = document.createElement('button');
-        choice.type = 'button';
-        choice.className = 'choice';
-        
-        const circle = document.createElement('span');
-        circle.className = 'choice-input';
-        
-        const label = document.createElement('span');
-        label.className = 'choice-label';
-        label.textContent = choix.libelle;
-        
-        choice.appendChild(circle);
-        choice.appendChild(label);
-        
-        // Appliquer les couleurs en fonction de la réponse
-        if (choix.id === correctAnswerId) {
-          choice.classList.add('correct');
-        } else if (choix.id === userAnswerId && choix.id !== correctAnswerId) {
-          choice.classList.add('incorrect');
-        }
-        
-        // Désactiver les clics
-        choice.style.cursor = 'default';
-        choice.style.pointerEvents = 'none';
-        
-        choicesContainer.appendChild(choice);
-      });
-      
-      // Ajouter un titre pour la question
-      const questionTitle = document.createElement('h3');
-      questionTitle.style.marginBottom = 'var(--space-md)';
-      questionTitle.style.color = 'var(--color-text)';
-      questionTitle.style.fontSize = 'var(--font-size-lg)';
-      questionTitle.style.fontWeight = '600';
-      questionTitle.textContent = `Question ${index + 1}: ${question.enonce}`;
-      
-      // Ajouter au conteneur de résultats
-      if (quizResult) {
-        quizResult.appendChild(questionTitle);
-        quizResult.appendChild(choicesContainer);
-      }
-    });
-  };
+  showResults(resultats) {
+    this.resetTimer();
 
-  const handleNextQuestion = () => {
-    if (!questions.length) return;
-    if (currentIndex < questions.length - 1) {
-      currentIndex += 1;
-      renderQuestion();
-    } else {
-      // Fin du quiz
-      if (quizActive) {
-        quizActive.hidden = true;
-      }
-      finishQuiz();
-    }
-  };
+    const quizActive = document.getElementById('quiz-active');
+    const quizResult = document.getElementById('quiz-result');
+    const sidebarScore = document.getElementById('sidebar-score');
 
-  const loadQuiz = async () => {
-    if (!categorieSelect || !difficulteSelect) return;
-    const categorie = categorieSelect.value;
-    const difficulte = difficulteSelect.value;
-
-    setStatus('Chargement des questions…');
+    if (quizActive) quizActive.hidden = true;
     if (quizResult) {
-      quizResult.hidden = true;
-      quizResult.innerHTML = '';
+      quizResult.hidden = false;
+      quizResult.className = 'quiz-result';
+      
+      const score = resultats?.score || 0;
+      const points = resultats?.points || 0;
+      const total = this.questions.length;
+
+      quizResult.innerHTML = `
+        <div class="result-title">🎉 Quiz Terminé !</div>
+        <div class="result-score">${score}/${total}</div>
+        <div class="result-points">Points gagnés : ${points}</div>
+        <button class="btn-restart" onclick="location.reload()">
+          Nouveau quiz
+        </button>
+      `;
     }
 
-    try {
-      const params = new URLSearchParams({
-        categorie,
-        difficulte,
-      });
+    if (sidebarScore) sidebarScore.textContent = resultats?.score || 0;
+  }
+}
 
-      const response = await fetch(`${window.API_BASE_URL}/quiz?${params.toString()}`, {
-        headers: {
-          ...authHeaders,
-        },
-        credentials: 'include',
-      });
-
-      const data = await response.json().catch(() => ({}));
-
-      if (!response.ok || !data.succes) {
-        setStatus(
-          data.message ||
-            "Impossible de charger les questions pour ces critères. Essaie une autre combinaison.",
-          'error'
-        );
-        return;
-      }
-
-      questions = data.questions || [];
-      selectedAnswers.clear();
-      currentIndex = 0;
-
-      if (!questions.length) {
-        setStatus("Aucune question trouvée pour ces critères.", 'error');
-        if (quizEmpty) {
-          quizEmpty.hidden = false;
-          quizEmpty.textContent =
-            "Aucune question disponible pour cette catégorie / difficulté. Essaie une autre combinaison.";
-        }
-        return;
-      }
-
-      if (quizEmpty) quizEmpty.hidden = true;
-      if (quizActive) quizActive.hidden = false;
-      if (quizResult) quizResult.hidden = true;
-
-      setStatus('');
-      renderQuestion();
-    } catch (error) {
-      console.error(error);
-      setStatus("Erreur réseau lors du chargement du quiz.", 'error');
-    }
-  };
-
-  const initEvents = () => {
-    if (startBtn) {
-      startBtn.addEventListener('click', () => {
-        loadQuiz();
-      });
-    }
-
-    if (nextBtn) {
-      nextBtn.addEventListener('click', () => {
-        handleNextQuestion();
-      });
-    }
-  };
-
-  // Init
-  attachLogout();
-  initUserName();
-  initEvents();
-})();
-
+// Initialiser le gestionnaire de quiz professionnel
+document.addEventListener('DOMContentLoaded', () => {
+  new ProfessionalQuizManager();
+});
