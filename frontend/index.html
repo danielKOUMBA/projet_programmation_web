@@ -1,117 +1,230 @@
 <!DOCTYPE html>
+
 <html lang="fr">
+
   <head>
+
     <meta charset="UTF-8" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+
     <title>QuizMaster — Testez Vos Connaissances</title>
+
     <meta name="description" content="QuizMaster est une application de quiz amusante et compétitive. Défiez-vous, grimpez au classement et apprenez quelque chose de nouveau chaque jour.">
     
     <!-- Google Fonts: Inter -->
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
+
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="css/index.css" />
+
   </head>
+
   <body class="page">
+
     <!-- Navigation principale -->
+
     <header class="navigation-test">
+
       <div class="navigation-test-interieur">
+
         <div class="marque">
+
           <div class="logo-marque">Q</a></div>
+
           <div>
+
             <div class="texte-marque"><a href="index.html">QuizMaster</a></div>
+
             <p class="nav-username" id="nav-username-home" data-auth-visible="auth"></p>
+
           </div>
+
         </div>
+
         <nav class="liens-navigation" aria-label="Navigation principale">
-          <a href="quiz.html" class="lien-navigation">Jouer</a>
-          <a href="classement.html" class="lien-navigation">Classement</a>
+
+          <button class="bascule-navigation" id="menu-toggle" aria-label="Menu">
+            ☰
+          </button>
+
+          <div class="navigation-menu">
+
+            <a href="quiz.html" class="lien-navigation">Jouer</a>
+
+            <a href="classement.html" class="lien-navigation">Classement</a>
+            
+            <!-- Liens visibles seulement si NON connecté -->
+
+            <a href="login.html" class="nav-link" data-auth-visible="guest">Connexion</a>
+
+            <a href="inscription.html" class="nav-link nav-link--primary" data-auth-visible="guest">Inscription</a>
+            
+            <!-- Actions visibles seulement si connecté -->
+
+            <a href="dashboard.html" class="lien-navigation" data-auth-visible="auth" style="display: none">Tableau de bord</a>
+
+          <button id="logoutBtn" class="nav-link" type="button" data-auth-visible="auth" style="display: none">
+
+            Déconnexion
+
+          </button>        </div>
+
+      </nav>
+
+    </div>
+
+  </header>
+
+
+
+  <main class="page-main">
+
+    <!-- Bannière d'accueil -->
+
+    <section class="banniere apparition-fondu">
+
+      <div class="banniere-contenu">
+
+        <div class="banniere-texte">
+
+          <span class="banniere-insigne">Gratuit & Éducatif</span>
+
+          <h1 class="banniere-titre">Défie Votre Esprit avec QuizMaster</h1>
+
+          <p class="banniere-sous-titre">
+
+            Testez vos connaissances sur plusieurs sujets, affrontez des joueurs du monde entier
+
+            et suivez votre progression au classement général.
+
+          </p>
           
-          <!-- Liens visibles seulement si NON connecté -->
-          <a href="login.html" class="nav-link" data-auth-visible="guest">Connexion</a>
-          <a href="inscription.html" class="nav-link nav-link--primary" data-auth-visible="guest">Inscription</a>
-          
-          <!-- Actions visibles seulement si connecté -->
-          <a href="dashboard.html" class="lien-navigation" data-auth-visible="auth" style="display: none">Tableau de bord</a>
-        <button id="logoutBtn" class="nav-link" type="button" data-auth-visible="auth" style="display: none">
-          Déconnexion
-        </button>        </nav>
+          <div class="banniere-actions">
+
+            <a href="quiz.html" class="bouton bouton--primaire bouton--grand">Commencer le Quiz</a>
+
+            <a href="inscription.html" class="bouton bouton--secondaire bouton--grand">Créer un Compte</a>
+
+          </div>
+
+        </div>
+
+        <div class="banniere-image">
+
+          <img src="../images/Hero.png" alt="QuizMaster - Défie ton esprit" class="banniere-img">
+
+        </div>
+
       </div>
-    </header>
 
-    <main class="page-main">
-      <!-- Bannière d'accueil -->
-      <section class="banniere apparition-fondu">
-        <span class="banniere-insigne">Gratuit & Éducatif</span>
-        <h1 class="banniere-titre">Défie Votre Esprit avec QuizMaster</h1>
-        <p class="banniere-sous-titre">
-          Testez vos connaissances sur plusieurs sujets, affrontez des joueurs du monde entier
-          et suivez votre progression au classement général.
-        </p>
-        
-        <div class="banniere-actions">
-          <a href="quiz.html" class="bouton bouton--primaire bouton--grand">Commencer le Quiz</a>
-          <a href="inscription.html" class="bouton bouton--secondaire bouton--grand">Créer un Compte</a>
-        </div>
-      </section>
+    </section>
 
-      <!-- Section fonctionnalités -->
-      <section class="conteneur conteneur--large" style="padding-bottom: 4rem;">
-        <div class="fonctionnalites">
-          <!-- Fonctionnalité 1 : Quiz Chronométré -->
-          <article class="carte-fonctionnalite glissement-haut" style="animation-delay: 100ms;">
-            <div class="carte-fonctionnalite-icone">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"/>
-                <polyline points="12 6 12 12 16 14"/>
-              </svg>
-            </div>
-            <h3 class="carte-fonctionnalite-titre">Défis Chronométrés</h3>
-            <p class="carte-fonctionnalite-description">
-              Courez contre la montre avec 30 secondes par question.
-              La rapidité et la précision sont récompensées.
-            </p>
-          </article>
 
-          <!-- Fonctionnalité 2 : Classement Mondial -->
-          <article class="carte-fonctionnalite glissement-haut" style="animation-delay: 200ms;">
-            <div class="carte-fonctionnalite-icone">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/>
-                <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/>
-                <path d="M4 22h16"/>
-                <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/>
-                <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/>
-                <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>
-              </svg>
-            </div>
-            <h3 class="carte-fonctionnalite-titre">Classement Mondial</h3>
-            <p class="carte-fonctionnalite-description">
-              Affrontez des joueurs du monde entier.
-              Grimpez les classements et prenez la première place.
-            </p>
-          </article>
 
-          <!-- Fonctionnalité 3 : Suivi des Progrès -->
-          <article class="carte-fonctionnalite glissement-haut" style="animation-delay: 300ms;">
-            <div class="carte-fonctionnalite-icone">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M3 3v18h18"/>
-                <path d="m19 9-5 5-4-4-3 3"/>
-              </svg>
-            </div>
-            <h3 class="carte-fonctionnalite-titre">Suivez Vos Progrès</h3>
-            <p class="carte-fonctionnalite-description">
-              Consultez votre tableau de bord personnel avec des statistiques détaillées,
-              l'historique des quiz et les tendances de performance.
-            </p>
-          </article>
-        </div>
-      </section>
+    <!-- Section fonctionnalités -->
 
-      
-    </main>
+    <section class="conteneur conteneur--large" style="padding-bottom: 4rem;">
+
+      <div class="fonctionnalites">
+
+        <!-- Fonctionnalité 1 : Quiz Chronométré -->
+
+        <article class="carte-fonctionnalite glissement-haut" style="animation-delay: 100ms;">
+
+          <div class="carte-fonctionnalite-icone">
+
+            <img src="../images/chronometre.jpg" alt="Chronomètre" class="carte-fonctionnalite-img">
+
+          </div>
+
+          <h3 class="carte-fonctionnalite-titre">Défis Chronométrés</h3>
+
+          <p class="carte-fonctionnalite-description">
+
+            Courez contre la montre avec 30 secondes par question.
+
+            La rapidité et la précision sont récompensées.
+
+          </p>
+
+        </article>
+
+        <!-- Fonctionnalité 2 : Classement Mondial -->
+
+        <article class="carte-fonctionnalite glissement-haut" style="animation-delay: 200ms;">
+
+          <div class="carte-fonctionnalite-icone">
+
+            <img src="../images/classement.jpg" alt="Classement" class="carte-fonctionnalite-img">
+
+          </div>
+
+          <h3 class="carte-fonctionnalite-titre">Classement Mondial</h3>
+
+          <p class="carte-fonctionnalite-description">
+
+            Affrontez des joueurs du monde entier.
+
+            Grimpez les classements et prenez la première place.
+
+          </p>
+
+        </article>
+
+        <!-- Fonctionnalité 3 : Suivi des Progrès -->
+
+        <article class="carte-fonctionnalite glissement-haut" style="animation-delay: 300ms;">
+
+          <div class="carte-fonctionnalite-icone">
+
+            <img src="../images/progres.jpg" alt="Progrès" class="carte-fonctionnalite-img">
+
+          </div>
+
+          <h3 class="carte-fonctionnalite-titre">Suivez Vos Progrès</h3>
+
+          <p class="carte-fonctionnalite-description">
+
+            Consultez votre tableau de bord personnel avec des statistiques détaillées,
+
+            l'historique des quiz et les tendances de performance.
+
+          </p>
+
+        </article>
+
+        <!-- Nouvelle fonctionnalité 4 : Défis Quotidiens -->
+
+        <article class="carte-fonctionnalite glissement-haut" style="animation-delay: 400ms;">
+
+          <div class="carte-fonctionnalite-icone">
+
+            <img src="../images/defis.jpg" alt="Défis" class="carte-fonctionnalite-img">
+
+          </div>
+
+          <h3 class="carte-fonctionnalite-titre">Défis Quotidiens</h3>
+
+          <p class="carte-fonctionnalite-description">
+
+            Relevez de nouveaux défis chaque jour et gagnez des bonus exclusifs.
+
+            Testez vos limites et améliorez vos compétences.
+
+          </p>
+
+        </article>
+
+      </div>
+
+    </section>
+
+
 
     <!-- Footer -->
     <footer class="footer">
@@ -146,10 +259,17 @@
     </footer>
 
 
-    <script src="js/config.js"></script>
-    <script src="js/auth-service.js"></script>
-    <script src="js/forms.js"></script>
-    <script src="js/index.js" defer></script>
-  </body>
-</html>
 
+
+
+    <script src="js/config.js"></script>
+
+    <script src="js/auth-service.js"></script>
+
+    <script src="js/forms.js"></script>
+
+    <script src="js/index.js" defer></script>
+
+  </body>
+
+</html>

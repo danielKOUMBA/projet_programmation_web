@@ -23,9 +23,14 @@
           </div>
         </div>
         <nav class="liens-navigation" aria-label="Navigation principale">
-          <a href="index.html" class="lien-navigation">Accueil</a>
-          <a href="quiz.html" class="lien-navigation">Jouer</a>
-          <a href="classement.html" class="lien-navigation">Classement</a>
+          <button class="bascule-navigation" id="menu-toggle" aria-label="Menu">
+            ☰
+          </button>
+
+          <div class="navigation-menu">
+            <a href="index.html" class="lien-navigation">Accueil</a>
+            <a href="quiz.html" class="lien-navigation">Jouer</a>
+            <a href="classement.html" class="lien-navigation">Classement</a>
           <!-- Liens visibles seulement si NON connecté -->
           <a href="login.html" class="nav-link" data-auth-visible="guest">Connexion</a>
           <a href="inscription.html" class="nav-link nav-link--primary" data-auth-visible="guest">Inscription</a>
@@ -33,7 +38,7 @@
           <!-- Actions visibles seulement si connecté -->
           <a href="dashboard.html" class="lien-navigation" data-auth-visible="auth" style="display: none">Tableau de bord</a>
           <button id="logoutHome" class="lien-navigation lien-navigation--primaire" type="button" data-auth-visible="auth" style="display: none">Déconnexion</button>
-
+        </div>
         </nav>
       </div>
     </header>
@@ -130,5 +135,6 @@
     <script src="js/config.js"></script>
     <script src="js/auth-service.js"></script>
     <script src="js/forms.js"></script>
+    <script src="js/mobile-menu.js"></script>
   </body>
 </html>

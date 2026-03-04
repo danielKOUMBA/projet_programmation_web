@@ -20,26 +20,30 @@
       <div class="marque">
         <div class="logo-marque">Q</div>
         <div>
-            <div class="texte-marque"><a href="index.html">QuizMaster</a></div>
+          <div class="texte-marque"><a href="index.html">QuizMaster</a></div>
           <p class="nav-username" id="nav-username-home" data-auth-visible="auth"></p>
         </div>
       </div>
       <nav class="liens-navigation" aria-label="Navigation principale">
-        <a href="quiz.html" class="lien-navigation">Jouer</a>
-        <a href="classement.html" class="lien-navigation lien-navigation--primaire">Classement</a>
-
-        <!-- Liens visibles seulement si NON connecté -->
-        <a href="login.html" class="lien-navigation" data-auth-visible="guest">Connexion</a>
-        <a href="inscription.html" class="lien-navigation" data-auth-visible="guest">Inscription</a>
-
-        <!-- Actions visibles seulement si connecté -->
-        <a href="dashboard.html" class="lien-navigation" data-auth-visible="auth" style="display: none">Tableau de
-          bord</a>
-        <button id="logoutBtn" class="nav-link" type="button" data-auth-visible="auth" style="display: none">
-          Déconnexion
+        <button class="bascule-navigation" id="menu-toggle" aria-label="Menu">
+          ☰
         </button>
 
+        <div class="navigation-menu">
+          <a href="quiz.html" class="lien-navigation">Jouer</a>
+          <a href="classement.html" class="lien-navigation lien-navigation--primaire">Classement</a>
 
+          <!-- Liens visibles seulement si NON connecté -->
+          <a href="login.html" class="lien-navigation" data-auth-visible="guest">Connexion</a>
+          <a href="inscription.html" class="lien-navigation" data-auth-visible="guest">Inscription</a>
+
+          <!-- Actions visibles seulement si connecté -->
+          <a href="dashboard.html" class="lien-navigation" data-auth-visible="auth" style="display: none">Tableau de
+            bord</a>
+          <button id="logoutBtn" class="nav-link" type="button" data-auth-visible="auth" style="display: none">
+            Déconnexion
+          </button>
+        </div>
       </nav>
     </div>
   </header>
@@ -47,6 +51,10 @@
 
   <main class="page-main">
     <section class="hero fade-in">
+      <div class="hero__background">
+        <div class="hero__particles"></div>
+        <div class="hero__glow"></div>
+      </div>
       <span class="hero__badge">🏆 Top 10 Mondial</span>
       <h1 class="hero__title">Classement général</h1>
       <p class="hero__subtitle">
@@ -68,22 +76,19 @@
       </div>
 
       <div id="leaderboard-table-shell" hidden>
-        <table style="width: 100%; border-collapse: collapse;" aria-describedby="leaderboard-title">
-          <thead>
-            <tr style="border-bottom: 1px solid var(--color-border);">
-              <th
-                style="text-align: left; padding: var(--space-sm); font-weight: 600; color: var(--color-text-secondary);">
-                Rang</th>
-              <th
-                style="text-align: left; padding: var(--space-sm); font-weight: 600; color: var(--color-text-secondary);">
-                Joueur</th>
-              <th
-                style="text-align: left; padding: var(--space-sm); font-weight: 600; color: var(--color-text-secondary);">
-                Points</th>
-            </tr>
-          </thead>
-          <tbody id="leaderboard-body"></tbody>
-        </table>
+        <div class="leaderboard-visual">
+          <div class="podium-container">
+            <div class="podium-top3" id="podium-top3"></div>
+          </div>
+          <div class="leaderboard-list">
+            <div class="leaderboard-headers">
+              <div class="header-rank">Rang</div>
+              <div class="header-player">Joueur</div>
+              <div class="header-points">Points</div>
+            </div>
+            <div class="leaderboard-entries" id="leaderboard-entries"></div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -127,6 +132,7 @@
   <script src="js/config.js"></script>
   <script src="js/auth-service.js"></script>
   <script src="js/forms.js"></script>
+  <script src="js/mobile-menu.js"></script>
   <script src="js/classement.js"></script>
 </body>
 
