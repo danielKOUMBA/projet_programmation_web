@@ -14,6 +14,7 @@ class AuthService {
     // Si l'utilisateur est déjà dans localStorage, pas besoin d'appel API
     if (this.user) {
       console.log('Utilisateur restauré depuis localStorage:', this.user);
+      this.isInitialized = true;
       this.updateUI();
       return;
     }
