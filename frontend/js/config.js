@@ -1,3 +1,3 @@
 // Configuration globale du frontend
-window.API_BASE_URL = 'http://localhost:3000/api';
+window.API_BASE_URL = 'https://projet-web-backend.onrender.com/api';
 
