@@ -379,7 +379,7 @@ class ProfessionalQuizManager {
         }),
       });
 
-      if (!data.succes) {
+      if (!data.succès) {
         window.authService.showAlert(data.message || 'Erreur lors de la soumission', 'error');
         return;
       }
