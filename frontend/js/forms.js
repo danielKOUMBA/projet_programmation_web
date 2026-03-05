@@ -2,7 +2,15 @@
 class FormManager {
   constructor() {
     this.setupEventListeners();
+    this.stylePasswordFields();
   }
+
+  // stylePasswordFields() {
+  //   // Ajouter une bordure rouge aux champs de mot de passe
+  //   document.querySelectorAll('input[type="password"]').forEach(field => {
+  //     field.style.borderColor = '#ff5c6c';
+  //   });
+  // }
 
   setupEventListeners() {
     // Formulaire de connexion
@@ -72,6 +80,7 @@ class FormManager {
 
     if (!email || !motDePasse) {
       window.authService.showAlert('Veuillez remplir tous les champs', 'error');
+
       return;
     }
 
@@ -96,28 +105,65 @@ class FormManager {
   }
 
   async handleSignup(form) {
-    const formData = new FormData(form);
-    const nom = formData.get('nom');
-    const email = formData.get('email');
-    const motDePasse = formData.get('password');
-    const confirmation = formData.get('confirmation');
 
-    if (!nom || !email || !motDePasse || !confirmation) {
-      window.authService.showAlert('Veuillez remplir tous les champs', 'error');
-      return;
-    }
+  const formData = new FormData(form);
 
-    if (motDePasse !== confirmation) {
-      window.authService.showAlert('Les mots de passe ne correspondent pas', 'error');
-      return;
-    }
+  const nomInput = form.querySelector('[name="nom"]');
+  const emailInput = form.querySelector('[name="email"]');
+  const passwordInput = form.querySelector('[name="password"]');
+  const confirmationInput = form.querySelector('[name="confirmation"]');
 
-    if (motDePasse.length < 6) {
-      window.authService.showAlert('Le mot de passe doit contenir au moins 6 caractères', 'error');
-      return;
-    }
+  const nom = nomInput.value;
+  const email = emailInput.value;
+  const motDePasse = passwordInput.value;
+  const confirmation = confirmationInput.value;
 
-    try {
+  // Réinitialiser les bordures
+  [nomInput, emailInput, passwordInput, confirmationInput].forEach(input => {
+    input.style.borderColor = '';
+  });
+
+  // Vérifier champs vides
+  if (!nom || !email || !motDePasse || !confirmation) {
+    window.authService.showAlert('Veuillez remplir tous les champs', 'error');
+
+    [nomInput, emailInput, passwordInput, confirmationInput].forEach(input => {
+      if (!input.value) input.style.borderColor = '#ff5c6c';
+    });
+
+    return;
+  }
+
+  // Vérifier correspondance mot de passe
+  if (motDePasse !== confirmation) {
+    window.authService.showAlert('Les mots de passe ne correspondent pas', 'error');
+    passwordInput.style.borderColor = '#ff5c6c';
+    confirmationInput.style.borderColor = '#ff5c6c';
+    return;
+  }
+
+  // Longueur mot de passe
+  if (motDePasse.length < 6) {
+    window.authService.showAlert('Le mot de passe doit contenir au moins 6 caractères', 'error');
+    passwordInput.style.borderColor = '#ff5c6c';
+    return;
+  }
+
+  // Vérifier majuscule
+  if (!/[A-Z]/.test(motDePasse)) {
+    window.authService.showAlert('Le mot de passe doit contenir au moins une majuscule', 'error');
+    passwordInput.style.borderColor = '#ff5c6c';
+    return;
+  }
+
+// Vérifier chiffre
+if (!/\d/.test(motDePasse)) {
+  window.authService.showAlert('Le mot de passe doit contenir au moins un chiffre', 'error');
+  passwordInput.style.borderColor = '#ff5c6c';
+  return;
+}
+
+  try {
       const data = await window.authService.inscription(nom, email, motDePasse);
       
       if (data.succes) {
@@ -195,6 +241,7 @@ class FormManager {
 
     if (motDePasse !== confirmation) {
       window.authService.showAlert('Les mots de passe ne correspondent pas', 'error');
+      
       return;
     }
 

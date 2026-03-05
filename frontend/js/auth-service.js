@@ -117,6 +117,10 @@ class AuthService {
     if (data.succes && data.utilisateur) {
       this.user = data.utilisateur;
       localStorage.setItem('user', JSON.stringify(data.utilisateur));
+      document.querySelectorAll('a[class="lien-navigation"]').forEach(field => {
+      field.style.display = 'none';
+    });
+
       // Stocker le token et l'utilisateur dans localStorage
       if (data.token) {
         localStorage.setItem('token', data.token);
