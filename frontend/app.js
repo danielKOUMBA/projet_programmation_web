@@ -16,7 +16,7 @@ loginForm.addEventListener('submit', async (e) => {
     const messageElt = document.getElementById('authMessage');
 
     try {
-        const response = await fetch('http://localhost:3000/api/auth/connexion', {
+        const response = await fetch(`${window.API_BASE_URL}/auth/connexion`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
