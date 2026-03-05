@@ -2,7 +2,8 @@
 class AuthService {
   constructor() {
     this.baseURL = window.API_BASE_URL;
-    this.user = null;
+    const savedUser = localStorage.getItem("user");
+    this.user = savedUser ? JSON.parse(savedUser) : null;
     this.isInitialized = false;
   }
 
@@ -88,6 +89,11 @@ class AuthService {
     if (data.succes) {
       // Stocker l'email pour la vérification
       localStorage.setItem('pendingEmail', email);
+      // Si l'utilisateur est retourné (cas rare), le stocker
+      if (data.utilisateur) {
+        this.user = data.utilisateur;
+        localStorage.setItem('user', JSON.stringify(data.utilisateur));
+      }
     }
 
     return data;
@@ -102,10 +108,11 @@ class AuthService {
 
     if (data.succes && data.utilisateur) {
       this.user = data.utilisateur;
-      // Stocker le token dans localStorage pour compatibilité
+      // Stocker le token et l'utilisateur dans localStorage
       if (data.token) {
         localStorage.setItem('token', data.token);
       }
+      localStorage.setItem('user', JSON.stringify(data.utilisateur));
       this.updateUI();
       localStorage.removeItem('pendingEmail');
     }
@@ -124,8 +131,9 @@ class AuthService {
     }
     
     this.user = null;
-    // Nettoyer localStorage et cookies
+    // Nettoyer localStorage
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
     this.updateUI();
   }
 
@@ -138,6 +146,7 @@ class AuthService {
 
     if (data.succes && data.utilisateur) {
       this.user = data.utilisateur;
+      localStorage.setItem('user', JSON.stringify(data.utilisateur));
       this.updateUI();
       localStorage.removeItem('pendingEmail');
     }
