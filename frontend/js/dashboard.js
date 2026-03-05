@@ -8,6 +8,9 @@ class ProfessionalDashboardManager {
     // Injecter les styles professionnels
     this.injectStyles();
     
+    // Initialiser le menu hamburger
+    this.initMobileMenu();
+    
     // Attendre que l'auth soit initialisé
     if (!window.authService.isInitialized) {
       await new Promise(resolve => {
@@ -31,6 +34,34 @@ class ProfessionalDashboardManager {
     this.updateUserInfo();
     this.loadStats();
     this.loadHistory();
+  }
+
+  initMobileMenu() {
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+    
+    if (navToggle && navLinks) {
+      navToggle.addEventListener('click', () => {
+        navToggle.classList.toggle('active');
+        navLinks.classList.toggle('active');
+      });
+
+      // Fermer le menu en cliquant à l'extérieur
+      document.addEventListener('click', (e) => {
+        if (!navToggle.contains(e.target) && !navLinks.contains(e.target)) {
+          navToggle.classList.remove('active');
+          navLinks.classList.remove('active');
+        }
+      });
+
+      // Fermer le menu lors du redimensionnement (desktop)
+      window.addEventListener('resize', () => {
+        if (window.innerWidth > 768) {
+          navToggle.classList.remove('active');
+          navLinks.classList.remove('active');
+        }
+      });
+    }
   }
 
   injectStyles() {

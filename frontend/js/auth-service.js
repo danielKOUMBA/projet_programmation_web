@@ -4,7 +4,7 @@ class AuthService {
     this.baseURL = window.API_BASE_URL;
     const savedUser = localStorage.getItem("user");
     this.user = savedUser ? JSON.parse(savedUser) : null;
-    this.isInitialized = true;
+    this.isInitialized = false;
   }
 
   // Initialiser l'auth au chargement

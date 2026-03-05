@@ -22,7 +22,15 @@
             <p class="nav-username" id="nav-username"></p>
           </div>
         </div>
-        <nav class="nav-links" aria-label="Navigation principale">
+        
+        <!-- Bouton hamburger pour mobile -->
+        <button class="nav-toggle" id="navToggle" aria-label="Menu" type="button">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+        
+        <nav class="nav-links" id="navLinks" aria-label="Navigation principale">
           <a href="dashboard.html" class="nav-link" >Tableau de bord</a>
           <a href="quiz.html" class="nav-link">Jouer</a>
           <a href="classement.html" class="nav-link" data-auth-visible="auth">Classement</a>
