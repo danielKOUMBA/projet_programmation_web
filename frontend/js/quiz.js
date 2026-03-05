@@ -371,6 +371,7 @@ class ProfessionalQuizManager {
 
       const data = await window.authService.apiRequest('/quiz/soumettre', {
         method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           reponsesUtilisateur: answers,
           categorie,

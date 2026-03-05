@@ -13,35 +13,22 @@
     <link rel="stylesheet" href="css/dashboard.css" />
   </head>
   <body class="page">
-    <header class="navigation-test">
-      <div class="navigation-test-interieur">
-        <div class="marque">
-          <div class="logo-marque">Q</div>
+    <header class="top-nav">
+      <div class="top-nav-inner">
+        <div class="brand">
+          <div class="brand-logo">Q</div>
           <div>
-            <div class="texte-marque"><a href="index.html">QuizMaster</a></div>
+            <div class="brand-text">QuizMaster</div>
             <p class="nav-username" id="nav-username"></p>
           </div>
         </div>
-        <nav class="liens-navigation" aria-label="Navigation principale">
-          <button class="bascule-navigation" id="menu-toggle" aria-label="Menu">
-            ☰
+        <nav class="nav-links" aria-label="Navigation principale">
+          <a href="dashboard.html" class="nav-link" >Tableau de bord</a>
+          <a href="quiz.html" class="nav-link">Jouer</a>
+          <a href="classement.html" class="nav-link" data-auth-visible="auth">Classement</a>
+          <button id="logoutBtn" class="nav-link nav-link--primary" type="button" data-auth-visible="auth">
+            Déconnexion
           </button>
-
-          <div class="navigation-menu">
-            <a href="quiz.html" class="lien-navigation">Jouer</a>
-            <a href="classement.html" class="lien-navigation">Classement</a>
-           <!-- Liens visibles seulement si NON connecté -->
-        <a href="dashboard.html" class="nav-link" data-auth-visible="guest">Tableau de bord</a>
-        <a href="login.html" class="lien-navigation" data-auth-visible="guest">Connexion</a>
-        <a href="inscription.html" class="lien-navigation" data-auth-visible="guest">Inscription</a>
-
-        <!-- Actions visibles seulement si connecté -->
-        <a href="dashboard.html" class="lien-navigation" data-auth-visible="auth" style="display: none">Tableau de
-          bord</a>
-        <button id="logoutBtn" class="nav-link" type="button" data-auth-visible="auth" style="display: none">
-          Déconnexion
-        </button>
-        </div>
         </nav>
       </div>
     </header>
@@ -157,8 +144,6 @@
 
     <script src="js/config.js"></script>
     <script src="js/auth-service.js"></script>
-    <script src="js/forms.js"></script>
-    <script src="js/mobile-menu.js"></script>
     <script src="js/dashboard.js"></script>
   </body>
 </html>
