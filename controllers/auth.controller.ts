@@ -19,10 +19,10 @@ const genererCookie = (res: Response, userId: number) => {
 
   res.cookie('token', token, {
     httpOnly: true, // Sécurité contre les attaques XSS
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
+    secure: process.env.IS_PRODUCTION === 'true',
+    sameSite: process.env.IS_PRODUCTION === 'true' ? 'none' : 'strict',
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 jours
-    domain: process.env.NODE_ENV === 'production' ? '.onrender.com' : undefined
+    domain: process.env.IS_PRODUCTION === 'true' ? '.onrender.com' : undefined
   });
 
   // On retourne aussi le token pour que le frontend puisse le stocker dans le localStorage
