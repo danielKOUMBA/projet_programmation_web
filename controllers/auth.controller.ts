@@ -2,7 +2,6 @@ import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import { prisma } from '../db';
 import jwt from 'jsonwebtoken';
-import { generateTokenAndSetCookie } from '../utils/generateTokenAndSetCookie';
 import {
 	sendVerificationEmail,
 	sendPasswordResetEmail,
@@ -11,22 +10,11 @@ import {
 } from "../utils/emails";
 import crypto from 'crypto';
 
-// --- Fonction pour générer le JWT + cookie (utilitaire interne) ---
-const genererCookie = (res: Response, userId: number) => {
-  const token = jwt.sign({ userId }, process.env.JWT_SECRET || 'secret_par_defaut', {
+// --- Fonction pour générer le JWT (utilitaire interne) ---
+const genererToken = (userId: number) => {
+  return jwt.sign({ userId }, process.env.JWT_SECRET || 'secret_par_defaut', {
     expiresIn: '7d',
   });
-
-  res.cookie('token', token, {
-    httpOnly: true, // Sécurité contre les attaques XSS
-    secure: process.env.IS_PRODUCTION === 'true',
-    sameSite: process.env.IS_PRODUCTION === 'true' ? 'none' : 'strict',
-    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 jours
-    domain: process.env.IS_PRODUCTION === 'true' ? '.onrender.com' : undefined
-  });
-
-  // On retourne aussi le token pour que le frontend puisse le stocker dans le localStorage
-  return token;
 };
 
 // --- INSCRIPTION ---
@@ -59,11 +47,12 @@ export const inscription = async (req: Request, res: Response) => {
       },
     });
     
-    generateTokenAndSetCookie(res, user.id);
+    const token = genererToken(user.id);
     await sendVerificationEmail(user.email, verificationToken);
 
     res.status(201).json({
       succes: true,
+      token,
       message: 'Utilisateur créé avec succès. Veuillez vérifier votre email.',
       utilisateur: { 
         id: user.id, 
@@ -127,7 +116,7 @@ export const connexion = async (req: Request, res: Response) => {
       return res.status(400).json({ succes: false, message: "Identifiants incorrects." });
     }
 
-    const token = genererCookie(res, user.id);
+    const token = genererToken(user.id);
 
     // Mettre à jour la date de dernière connexion
     await prisma.utilisateur.update({
