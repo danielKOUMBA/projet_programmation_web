@@ -371,7 +371,8 @@ class ProfessionalQuizManager {
 
       const data = await window.authService.apiRequest('/quiz/soumettre', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' ,
+        headers: { 
+          'Content-Type': 'application/json',
           'Authorization': `Bearer ${window.authService.getToken()}`
         },
         body: JSON.stringify({
@@ -381,7 +382,7 @@ class ProfessionalQuizManager {
         }),
       });
 
-      if (!data.succès) {
+      if (!data.succes) {
         window.authService.showAlert(data.message || 'Erreur lors de la soumission', 'error');
         return;
       }
