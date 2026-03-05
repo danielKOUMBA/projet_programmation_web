@@ -25,17 +25,9 @@ class AuthService {
     this.updateUI();
   }
 
-  // Récupérer le token depuis les cookies ou localStorage
+  // Récupérer le token depuis localStorage
   getToken() {
-    // Essayer de récupérer depuis les cookies d'abord
-    const cookies = document.cookie.split('; ');
-    const tokenCookie = cookies.find(row => row.startsWith('token='));
-    const cookieToken = tokenCookie?.split('=')[1];
-    
-    // Si pas de cookie, essayer le localStorage (compatibilité)
-    const localToken = localStorage.getItem('token');
-    
-    return cookieToken || localToken;
+    return localStorage.getItem('token');
   }
 
   // Vérifier si l'utilisateur est authentifié
