@@ -20,8 +20,9 @@ const genererCookie = (res: Response, userId: number) => {
   res.cookie('token', token, {
     httpOnly: true, // Sécurité contre les attaques XSS
     secure: process.env.NODE_ENV === 'production',
-    sameSite: 'strict',
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 jours
+    domain: process.env.NODE_ENV === 'production' ? '.onrender.com' : undefined
   });
 
   // On retourne aussi le token pour que le frontend puisse le stocker dans le localStorage
@@ -136,7 +137,7 @@ export const connexion = async (req: Request, res: Response) => {
 
     res.status(200).json({
       succes: true,
-      token,
+      token, // Garder pour compatibilité
       utilisateur: { 
         id: user.id, 
         nom: user.nomUtilisateur, 

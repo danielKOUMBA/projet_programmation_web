@@ -15,7 +15,9 @@ app.use(express.json()); // Pour lire le body des requêtes POST
 app.use(cookieParser()); // Pour lire le JWT dans les cookies
 app.use(cors({
     origin: ["https://projet-programmation-web.vercel.app", "http://localhost:3000"],
-    credentials: true
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "Cookie"]
 }));
 
 // Routes de l'API
