@@ -25,11 +25,17 @@ class AuthService {
     this.updateUI();
   }
 
-  // Récupérer le token depuis les cookies
+  // Récupérer le token depuis les cookies ou localStorage
   getToken() {
+    // Essayer de récupérer depuis les cookies d'abord
     const cookies = document.cookie.split('; ');
     const tokenCookie = cookies.find(row => row.startsWith('token='));
-    return tokenCookie?.split('=')[1];
+    const cookieToken = tokenCookie?.split('=')[1];
+    
+    // Si pas de cookie, essayer le localStorage (compatibilité)
+    const localToken = localStorage.getItem('token');
+    
+    return cookieToken || localToken;
   }
 
   // Vérifier si l'utilisateur est authentifié
@@ -104,6 +110,10 @@ class AuthService {
 
     if (data.succes && data.utilisateur) {
       this.user = data.utilisateur;
+      // Stocker le token dans localStorage pour compatibilité
+      if (data.token) {
+        localStorage.setItem('token', data.token);
+      }
       this.updateUI();
       localStorage.removeItem('pendingEmail');
     }
@@ -122,6 +132,8 @@ class AuthService {
     }
     
     this.user = null;
+    // Nettoyer localStorage et cookies
+    localStorage.removeItem('token');
     this.updateUI();
   }
 
