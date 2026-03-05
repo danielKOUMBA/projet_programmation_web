@@ -4,17 +4,25 @@ class AuthService {
     this.baseURL = window.API_BASE_URL;
     const savedUser = localStorage.getItem("user");
     this.user = savedUser ? JSON.parse(savedUser) : null;
-    this.isInitialized = false;
+    this.isInitialized = true;
   }
 
   // Initialiser l'auth au chargement
   async init() {
     if (this.isInitialized) return;
     
+    // Si l'utilisateur est déjà dans localStorage, pas besoin d'appel API
+    if (this.user) {
+      console.log('Utilisateur restauré depuis localStorage:', this.user);
+      this.updateUI();
+      return;
+    }
+    
     try {
       const data = await this.apiRequest('/auth/check-auth');
       if (data.succes && data.utilisateur) {
         this.user = data.utilisateur;
+        localStorage.setItem('user', JSON.stringify(data.utilisateur));
         console.log('Utilisateur authentifié:', this.user);
       }
     } catch (error) {
@@ -108,11 +116,12 @@ class AuthService {
 
     if (data.succes && data.utilisateur) {
       this.user = data.utilisateur;
+      localStorage.setItem('user', JSON.stringify(data.utilisateur));
       // Stocker le token et l'utilisateur dans localStorage
       if (data.token) {
         localStorage.setItem('token', data.token);
       }
-      localStorage.setItem('user', JSON.stringify(data.utilisateur));
+      
       this.updateUI();
       localStorage.removeItem('pendingEmail');
     }
